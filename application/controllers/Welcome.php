@@ -79,6 +79,13 @@ class Welcome extends CI_Controller {
 							self::isTemplate('detail_order' , $data);
 						break;
 
+						case 'accept-order':
+							$data['title'] = 'Terima Pesanan';
+							$data['order'] = $this->AdminInterface->getOrderDetail($_REQUEST['id_order']);
+							$data['kurir'] = $this->KurirInterface->getList();
+							self::isTemplate('accept_order' , $data);
+						break;
+
 						default:
 							show_404();
 						break;
@@ -339,30 +346,92 @@ class Welcome extends CI_Controller {
 				$method = trimLower($_REQUEST['method']);
 
 				$data = array(
-						'username' => $_POST['username'],
-						'password' => $_POST['password']
+						'username' => @$_POST['username'],
+						'password' => @$_POST['password']
 					);
 
-				$rsadmin = $this->curl->simple_post($this->endpointUri.'/admin/login' , $data);
-				$result = json_decode($rsadmin);
-
-				if ( $result->return)
+				if ( ! $method)
 				{
-					$_SESSION['userAuth'] = TRUE;
-					if ( $result->data->id_outlet == 0 
-						|| $result->data->id_outlet == null)
-					{
-						$_SESSION['adminKey'] = $result->data->key;
-					}
-					else
-					{
-						$_SESSION['outletKey'] = $result->data->key;
-					}
-					redirect('/beranda');
+					show_404();
 				}
 				else
 				{
-					redirect('/login');
+					switch($method)
+					{
+						case 'login':
+							$rsadmin = $this->curl->simple_post($this->endpointUri.'/admin/login' , $data);
+							$result = json_decode($rsadmin);
+
+							if ( $result->return)
+							{
+								$_SESSION['userAuth'] = TRUE;
+								if ( $result->data->id_outlet == 0 
+									|| $result->data->id_outlet == null)
+								{
+									$_SESSION['adminKey'] = $result->data->key;
+								}
+								else
+								{
+									$_SESSION['outletKey'] = $result->data->key;
+								}
+								redirect('/beranda');
+							}
+							else
+							{
+								redirect('/login');
+							}
+						break;
+
+						case 'accept_order':
+							if ( ! $this->input->post())
+							{
+								redirect('/');
+							}
+
+							$data = array(
+									'token' => ( $this->sessionAdmin ) ? 
+									$this->sessionAdmin : $this->sessionOutlet,
+									'method' => 'send_order',
+									'id_order' => $this->input->post('order'),
+									'id_kurir' => $this->input->post('kurir')
+								);
+
+							$this->AdminInterface->postOrderToCourier($data);
+							
+							redirect('/pesanan');
+						break;
+
+						case 'cancel_order':
+							// todo
+						break;
+
+						case 'setting':
+							if ( ! $this->input->post())
+							{
+								redirect('/');
+							}
+
+							$data = array(
+									'token' => ( $this->sessionAdmin ) ? 
+									$this->sessionAdmin : $this->sessionOutlet,
+									'km' => $this->input->post('km')
+								);
+
+							$rs = $this->AdminInterface->postSettings($data);
+							
+							$this->session->set_userdata(array(
+									'return_settings' => $rs->return,
+									'message_settings' => ($rs->return) ? 
+									'text-success|'.$rs->message : 'text-danger|'.$rs->error_message
+								));
+
+							redirect('/settings');
+						break;
+
+						default:
+							show_404();
+						break;
+					}
 				}
 			break;
 

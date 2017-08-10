@@ -28,7 +28,7 @@
                           <th>Status</th>
                           <th>Jumlah Item</th>
                           <th>Tanggal Pesan</th>
-                          <th colspan="2" style="text-align:center;">Aksi</th>
+                          <th colspan="3" style="text-align:center;">Aksi</th>
                         </tr>
                       </thead>
 
@@ -46,10 +46,11 @@
                         	<td><?= $order->data[$i]->tanggal.' '.$order->data[$i]->jam ?></td>
                         	<td style="text-align:center;"><a href="/pesanan?action=detail&id_order=<?= $order->data[$i]->id_order ?>">Detail Pesanan</a></td>
                           <?php if ($order->data[$i]->kurir == 'nothing'): ?>
-                        	<td style="text-align:center;"><a href="/pesanan?action=accept&id_order=<?= $order->data[$i]->id_order ?>">Terima</a></td>
+                        	<td style="text-align:center;"><a href="/pesanan?action=accept-order&id_order=<?= $order->data[$i]->id_order ?>" id="accept-order">Terima</p></td>
                           <?php else: ?>
-                        	<td style="text-align:center;"><a href="/pesanan?action=cancel&id_order=<?= $order->data[$i]->id_order ?>">Batalkan</a></td>
+                        	<td style="text-align:center;"><a href="#" id="cancel-order" data-id="<?= $order->data[$i]->id_order; ?>" onclick="cancelOrder()">Batalkan</a></td>
                           <?php endif; ?>
+                          <td style="text-align: center;"><a href="#" id="delete-order" onclick="deleteOrder()" data-id"<?= $order->data[$i]->id_order; ?>>Hapus</a></td>
                         </tr>
                         <?php endfor; ?>
                     </table>

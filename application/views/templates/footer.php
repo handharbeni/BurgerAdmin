@@ -48,5 +48,59 @@
     <?php endif; ?>
     <!-- Custom Theme Scripts -->
     <script src="/build/js/custom.min.js"></script> 
+
+    <!-- Sweet alert -->
+    <script type="text/javascript" src="/build/js/sweetalert.min.js"></script>
+
+    <?php if ( $this->uri->segment(1) == 'pesanan'): ?>
+    <!-- Pesanan JS -->
+    <script type="text/javascript">
+        function cancelOrder()
+        {
+          swal({
+                  title: "Batalkan pesanan?",
+                  text: "Pesanan akan dibatalkan apabila memilih <strong>Ok</strong>",
+                  type: "warning",
+                  html: true,
+                  showCancelButton: true,
+                  closeOnConfirm: false,
+                  showLoaderOnConfirm: true,
+                  confirmButtonText: "Ya, batalkan",
+                  cancelButtonText: "Keluar"
+                },
+                function(){
+                  setTimeout(function(){
+                    swal("Berhasil!", "Pesanan berhasil dibatalkan!", "success");
+                  }, 2000);
+                });
+        }
+
+        function deleteOrder()
+        {
+          swal({
+                  title: "Hapus pesanan?",
+                  text: "Pesanan akan dihapus apabila memilih <strong>Ok</strong>",
+                  type: "warning",
+                  html: true,
+                  showCancelButton: true,
+                  closeOnConfirm: false,
+                  showLoaderOnConfirm: true,
+                  confirmButtonText: "Ya, hapus",
+                  cancelButtonText: "Keluar"
+                },
+                function(){
+                  setTimeout(function(){
+                    swal("Berhasil!", "Pesanan berhasil dihapus!", "success");
+                  }, 2000);
+                });
+        }
+
+        function changeKurir(x)
+        {
+          // alert("Selected: " + x);
+        }
+    </script>
+    <?php endif; ?>
+
   </body>
 </html>

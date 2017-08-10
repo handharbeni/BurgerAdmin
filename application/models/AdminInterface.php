@@ -70,4 +70,27 @@ class AdminInterface extends CI_Model {
 
 		return $result;
 	}
+
+	/* @POST /admin/setting */
+	public function postSettings($data)
+	{
+		$this->uri = $this->endpointUri.'/admin/setting';
+
+		$settings = $this->curl->simple_post($this->uri, $data);
+		$result = json_decode($settings);
+
+		return $result;
+	}
+
+	/* @POST /admin/kurir */
+	public function postOrderToCourier($data)
+	{
+		$this->uri = $this->endpointUri.'/admin/kurir';
+
+		$order = $this->curl->simple_post($this->uri, $data);
+		$result = json_decode($order);
+
+		return $result;
+	}
+
 }
