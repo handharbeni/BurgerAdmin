@@ -12,14 +12,21 @@
                   </div>
                   <div class="x_content">
 
-                    <form class="form-horizontal form-label-left" novalidate>
+                    <form method="post" action="<?= base_url(); ?>do_action?method=setting" class="form-horizontal form-label-left" novalidate>
                       <span class="section">Ubah Pengaturan</span>
-
+                      <?php if ( isset($this->session->userdata['return_settings'])): 
+                      $x = explode("|" , $this->session->userdata('message_settings'));
+                      ?>
+                      <h5 class="text-center <?= $x[0] ?>"><?= $x[1]; ?></h5>
+                      <?php 
+                      endif; 
+                      $this->session->unset_userdata( array('return_settings','message_settings'));
+                      ?>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Biaya per-kilometer
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="name" class="form-control col-md-7 col-xs-12" name="name" autocomplete="off" type="text"><span>Sekarang: <strong>Rp. <?= $getKm->value ?></strong></span>
+                          <input id="name" class="form-control col-md-7 col-xs-12" name="km" autocomplete="off" type="text"><span>Sekarang: <strong>Rp. <?= $getKm->value ?></strong></span>
                         </div>
                       </div>
 

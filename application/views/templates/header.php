@@ -20,6 +20,9 @@
 
     <!-- Custom Theme Style -->
     <link href="/build/css/custom.min.css" rel="stylesheet">
+
+    <!-- sweet alert -->
+    <link rel="stylesheet" type="text/css" href="/build/css/sweetalert.css">
   </head>
 
   <body class="nav-md">

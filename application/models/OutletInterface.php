@@ -35,4 +35,26 @@ class OutletInterface extends CI_Model {
 		return $result;
 	}
 
+	/* @POST /outlet/setting */
+	public function postSettings($data)
+	{
+		$this->uri = $this->endpointUri.'/outlet/setting';
+
+		$settings = $this->curl->simple_post($this->uri, $data);
+		$result = json_decode($settings);
+
+		return $result;
+	}
+
+	/* @POST /outlet/kurir */
+	public function postOrderToCourier($data)
+	{
+		$this->uri = $this->endpointUri.'/outlet/kurir';
+
+		$order = $this->curl->simple_post($this->uri, $data);
+		$result = json_decode($order);
+
+		return $result;
+	}
+
 }

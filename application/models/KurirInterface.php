@@ -16,4 +16,13 @@ class KurirInterface extends CI_Model {
 
 		return $result;
 	}
+
+	/* @$GET /kurir/?token={access_token} */
+	public function getKurirDetail($token)
+	{
+		$kurir = $this->curl->simple_get($this->endpointUri.'/kurir/?token='.$token);
+		$result = json_decode($kurir);
+
+		return $result;
+	}
 }

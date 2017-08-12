@@ -7,7 +7,7 @@ class User_Auth {
 	function __construct()
 	{
 		$this->_ci = &get_instance();
-		$this->endpointUri = "http://localhost:8080";
+		$this->endpointUri = endpoint_url();
 	}
 
 	function loginAuth()
