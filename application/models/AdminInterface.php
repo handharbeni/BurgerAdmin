@@ -5,7 +5,7 @@ class AdminInterface extends CI_Model {
 	function __construct()
 	{
 		parent::__construct();
-		$this->endpointUri = "http://localhost:8080";
+		$this->endpointUri = endpoint_url();
 	}
 
 	/* @GET /admin/order?token=:access_token */
@@ -55,6 +55,18 @@ class AdminInterface extends CI_Model {
 
 		$tools = $this->curl->simple_get($this->lastUri);
 		$result = json_decode($tools);
+
+		return $result;
+	}
+
+	/* Example Order Detail kurir */
+	/* @GET /kurir/order?order_id={id_order}&token={access_token} */
+	public function getOrderDetail($id)
+	{
+		$this->uri = $this->endpointUri.'/kurir/order?order_id='.$id.'&token=keykurirsatu';
+		
+		$rs = $this->curl->simple_get($this->uri);
+		$result = json_decode($rs);
 
 		return $result;
 	}

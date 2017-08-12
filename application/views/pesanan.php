@@ -28,7 +28,7 @@
                           <th>Status</th>
                           <th>Jumlah Item</th>
                           <th>Tanggal Pesan</th>
-                          <th colspan="3" style="text-align:center;">Aksi</th>
+                          <th colspan="2" style="text-align:center;">Aksi</th>
                         </tr>
                       </thead>
 
@@ -45,8 +45,11 @@
                         	<td><?= count($order->data[$i]->items); ?></td>
                         	<td><?= $order->data[$i]->tanggal.' '.$order->data[$i]->jam ?></td>
                         	<td style="text-align:center;"><a href="/pesanan?action=detail&id_order=<?= $order->data[$i]->id_order ?>">Detail Pesanan</a></td>
+                          <?php if ($order->data[$i]->kurir == 'nothing'): ?>
                         	<td style="text-align:center;"><a href="/pesanan?action=accept&id_order=<?= $order->data[$i]->id_order ?>">Terima</a></td>
+                          <?php else: ?>
                         	<td style="text-align:center;"><a href="/pesanan?action=cancel&id_order=<?= $order->data[$i]->id_order ?>">Batalkan</a></td>
+                          <?php endif; ?>
                         </tr>
                         <?php endfor; ?>
                     </table>

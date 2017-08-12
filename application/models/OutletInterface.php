@@ -5,7 +5,7 @@ class OutletInterface extends CI_Model {
 	function __construct()
 	{
 		parent::__construct();
-		$this->endpointUri = "http://localhost:8080";
+		$this->endpointUri = endpoint_url();
 	}
 
 	/* @GET /public/list?type=user&access=true */

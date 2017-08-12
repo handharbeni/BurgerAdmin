@@ -1,7 +1,7 @@
         <div class="col-md-3 left_col menu_fixed">
           <div class="left_col scroll-view">
             <div class="navbar nav_title text-center" style="border: 0;">
-              <a href="/" class="site_title"><span>Burger Tahu</span></a>
+              <a href="<?= base_url() ?>" class="site_title"><span>Burger Tahu</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -25,37 +25,43 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a href="/"><i class="fa fa-home"></i> Beranda</a></li>
-                  <li><a href="/pesanan"><i class="fa fa-sticky-note-o"></i> Pesanan</a></li>
+                  <li><a href="<?= base_url() ?>"><i class="fa fa-home"></i> Beranda</a></li>
+                  <li><a href="<?= base_url() ?>pesanan"><i class="fa fa-sticky-note-o"></i> Pesanan</a></li>
                   <li><a><i class="fa fa-book"></i>Menu <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="/menu?action=show">Lihat Menu</a></li>
-                      <li><a href="/menu?action=add">Tambah Menu</a></li>
+                      <li><a href="<?= base_url() ?>menu?action=show">Lihat Menu</a></li>
+                      <li><a href="<?= base_url() ?>menu?action=add">Tambah Menu</a></li>
                     </ul>
                   </li>
                 
                   <?php if ($this->sessionAdmin): ?>
                   <li><a><i class="fa fa-user"></i>Pengguna <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="/user?action=show">Lihat Pengguna</a></li>
-                      <li><a href="/user?action=add">Tambah Pengguna</a></li>
+                      <li><a href="<?= base_url() ?>user?action=show">Lihat Pengguna</a></li>
+                      <li><a href="<?= base_url() ?>user?action=add">Tambah Pengguna</a></li>
                     </ul>
                   </li>
 
                   <li><a><i class="fa fa-send"></i>&nbsp;Outlet <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="/outlet?action=show">Lihat Outlet</a></li>
-                      <li><a href="/outlet?action=add">Tambah Outlet</a></li>
+                      <li><a href="<?= base_url() ?>outlet?action=show">Lihat Outlet</a></li>
+                      <li><a href="<?= base_url() ?>outlet?action=add">Tambah Outlet</a></li>
                     </ul>
                   </li>
                   <?php endif;?>
                   <li><a><i class="fa fa-motorcycle"></i>&nbsp;Kurir <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="/kurir?action=show">Lihat Kurir</a></li>
-                      <li><a href="/kurir?action=add">Tambah Kurir</a></li>
+                      <li><a href="<?= base_url() ?>kurir?action=show">Lihat Kurir</a></li>
+                      <li><a href="<?= base_url() ?>kurir?action=add">Tambah Kurir</a></li>
                     </ul>
                   </li>
-                  <li><a href="/logout"><i class="fa fa-sign-out"></i> Keluar</a></li>
+                  <li><a><i class="fa fa-money"></i>&nbsp;Banner <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="<?= base_url() ?>banner?action=show">Lihat Banner</a></li>
+                      <li><a href="<?= base_url() ?>banner?action=add">Tambah Banner</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="<?= base_url() ?>logout"><i class="fa fa-sign-out"></i> Keluar</a></li>
                 </ul>
               </div>
 

@@ -14,19 +14,29 @@ class Welcome extends CI_Controller {
 	
 	public function index()
 	{
+		self::hasLogin();
 		self::indexRoute();
 	}
 
 	private function indexRoute()
 	{
-		self::hasLogin();
 		$data['title'] = "Beranda";
-		self::isTemplate('iniview',$data);
+		$data['order'] = $this->sessionAdmin ? 
+				$this->AdminInterface->getOrder($this->sessionAdmin) :
+				$this->OutletInterface->getOrder($this->sessionOutlet);
+		$data['menu'] = $this->sessionAdmin ? 
+				$this->AdminInterface->getMenu($this->sessionAdmin) :
+				$this->OutletInterface->getMenu($this->sessionOutlet); 
+		$data['kurir'] = $this->KurirInterface->getList();
+		$data['userdata'] = $this->UserInterface->getList();
+		$data['outlet'] = $this->OutletInterface->getList();
+
+		self::isTemplate('beranda',$data);
 	}
 
 	private function isTemplate($content , $data = NULL)
 	{
-		$data['admindata'] = $this->admin->data[0];
+		$data['admindata'] = $this->admin->data[0];	
 		$this->load->view('templates/header' , $data);
 		$this->load->view('templates/sidebar' , $data);
 		$this->load->view('templates/top_navigation' , $data);
@@ -53,19 +63,40 @@ class Welcome extends CI_Controller {
 		switch($view)
 		{
 			case 'beranda':
+				self::hasLogin();
 				self::indexRoute();
 			break;
 
 			case 'pesanan':
-				$data['title'] = "Pesanan";
-				$data['uri'] = $this->uri->segment(1);
-				$data['order'] = $this->sessionAdmin ? 
-				$this->AdminInterface->getOrder($this->sessionAdmin) :
-				$this->OutletInterface->getOrder($this->sessionOutlet); 
-				self::isTemplate('pesanan' ,$data);
+				self::hasLogin();
+				if ( $getAction && $_REQUEST['id_order'])
+				{
+					switch($getAction) 
+					{
+						case 'detail':
+							$data['order'] = $this->AdminInterface->getOrderDetail($_REQUEST['id_order']);
+							$data['title'] = 'Detail Order';
+							self::isTemplate('detail_order' , $data);
+						break;
+
+						default:
+							show_404();
+						break;
+					}
+				}
+				else
+				{
+					$data['title'] = "Pesanan";
+					$data['uri'] = $this->uri->segment(1);
+					$data['order'] = $this->sessionAdmin ? 
+					$this->AdminInterface->getOrder($this->sessionAdmin) :
+					$this->OutletInterface->getOrder($this->sessionOutlet);
+					self::isTemplate('pesanan' ,$data);
+				}
 			break;
 
 			case 'menu':
+				self::hasLogin();
 				if ( ! $getAction)
 				{
 					show_404();
@@ -88,6 +119,18 @@ class Welcome extends CI_Controller {
 							self::isTemplate('add_menu', $data);
 						break;
 
+						case 'detail':
+							if ( ! $_REQUEST['sha'])
+							{
+								show_404();
+							}
+							else
+							{
+								$data['title'] = "Detail: ";
+								self::isTemplate('example',$data);
+							}
+						break;
+
 						default:
 							show_404();
 						break;
@@ -96,6 +139,7 @@ class Welcome extends CI_Controller {
 			break;
 
 			case 'user':
+				self::hasLogin();
 				if ( ! $getAction)
 				{
 					show_404();
@@ -145,6 +189,7 @@ class Welcome extends CI_Controller {
 			break;
 
 			case 'kurir':
+				self::hasLogin();
 				if ( ! $getAction)
 				{
 					show_404();
@@ -165,6 +210,18 @@ class Welcome extends CI_Controller {
 							self::isTemplate('add_kurir', $data);
 						break;
 
+						case 'detail':
+							if ( ! $_REQUEST['token'])
+							{
+								show_404();
+							}
+							else
+							{
+								$data['title'] = "Detail: ";
+								self::isTemplate('example',$data);
+							}
+						break;
+
 						default:
 							show_404();
 						break;
@@ -173,6 +230,7 @@ class Welcome extends CI_Controller {
 			break;
 
 			case 'outlet':
+				self::hasLogin();
 				if ( ! $getAction)
 				{
 					show_404();
@@ -218,6 +276,18 @@ class Welcome extends CI_Controller {
 							}
 						break;
 
+						case 'detail':
+							if ( ! $_REQUEST['token'])
+							{
+								show_404();
+							}
+							else
+							{
+								$data['title'] = "Detail: ";
+								self::isTemplate('example',$data);
+							}
+						break;
+
 						default:
 							show_404();
 						break;
@@ -225,11 +295,37 @@ class Welcome extends CI_Controller {
 				}
 			break;
 
+			case 'banner':
+				self::hasLogin();
+				if ( ! $getAction)
+				{
+					show_404();
+				}
+				else
+				{
+					switch($getAction)
+					{
+						case 'show':
+							$data['title'] = "Lihat Banner";
+							self::isTemplate('example' , $data);
+						break;
+
+						case 'add':
+							$data['title'] = "Tambah Banner";
+							self::isTemplate('example' , $data);
+						break;
+					}
+				}
+			break;
+
 			case 'profile':
-				echo '_PROFILE_';
+				self::hasLogin();
+				$data['title'] = 'Profil';
+				self::isTemplate('example' , $data);
 			break;
 
 			case 'settings':
+				self::hasLogin();
 				$data['title'] = 'Pengaturan';
 				$data['getKm'] = $this->AdminInterface->getToolsValue('km')->data[0];
 				self::isTemplate('settings',$data);
