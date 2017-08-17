@@ -11,16 +11,16 @@
     <title>Burger Tahu</title>
 
     <!-- Bootstrap -->
-    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?=base_url()?>/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="<?=base_url()?>/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
-    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="<?=base_url()?>/vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- Animate.css -->
-    <link href="../vendors/animate.css/animate.min.css" rel="stylesheet">
+    <link href="<?=base_url()?>/vendors/animate.css/animate.min.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="<?=base_url()?>/build/css/custom.min.css" rel="stylesheet">
   </head>
 
   <body class="login">
@@ -28,7 +28,7 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form action="/do_action?method=login" method="post">
+            <form action="<?=base_url()?>/do_action?method=login" method="post">
               <h1>Burger Tahu</h1>
               <div>
                 <input type="text" class="form-control" name="username" autocomplete="off" placeholder="Nama pengguna" required/>

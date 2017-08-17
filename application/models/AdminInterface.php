@@ -79,6 +79,7 @@ class AdminInterface extends CI_Model {
 		return $result;
 	}
 
+
 	/* @POST /admin/setting */
 	public function postSettings($data)
 	{
@@ -100,5 +101,4 @@ class AdminInterface extends CI_Model {
 
 		return $result;
 	}
-
 }
