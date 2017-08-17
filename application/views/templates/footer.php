@@ -59,7 +59,7 @@
         {
           swal({
                   title: "Batalkan pesanan?",
-                  text: "Pesanan akan dibatalkan apabila memilih <strong>Ok</strong>",
+                  text: "Pesanan akan dibatalkan apabila memilih <strong>Ya</strong>",
                   type: "warning",
                   html: true,
                   showCancelButton: true,
@@ -75,18 +75,68 @@
                 });
         }
 
+        function acceptOrder()
+        {
+          swal({
+                title: "Ambil pesanan?",
+                text: "Pesanan akan diambil apabila memilih <strong>Ya</strong>",
+                type: "info",
+                html: true,
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                confirmButtonText: "Ya, terima",
+                cancelButtonText: "Batal"
+              },
+              function(){
+                setTimeout(function(){
+                  swal("Berhasil!", "Pesanan berhasil diterima!", "success");
+                }, 2000);
+              });
+        }
+
+        function orderCompleted()
+        {
+          swal("Berhasil!", "Order behasil dikirim!", "success");
+        }
+
+        function orderProcessing()
+        {
+          swal("Proses!", "Order sedang diproses!", "info");
+        }
+
         function deleteOrder()
         {
           swal({
                   title: "Hapus pesanan?",
-                  text: "Pesanan akan dihapus apabila memilih <strong>Ok</strong>",
+                  text: "Pesanan akan dihapus apabila memilih <strong>Ya</strong>",
+                  type: "error",
+                  html: true,
+                  showCancelButton: true,
+                  closeOnConfirm: false,
+                  showLoaderOnConfirm: true,
+                  confirmButtonText: "Ya, hapus",
+                  cancelButtonText: "Batal"
+                },
+                function(){
+                  setTimeout(function(){
+                    swal("Berhasil!", "Pesanan berhasil dihapus!", "success");
+                  }, 2000);
+                });
+        }
+
+        function deleteOrderPermanent()
+        {
+          swal({
+                  title: "Hapus pesanan selamanya?",
+                  text: "Pesanan akan dihapus selamanya apabila memilih <strong>Ya</strong>",
                   type: "warning",
                   html: true,
                   showCancelButton: true,
                   closeOnConfirm: false,
                   showLoaderOnConfirm: true,
                   confirmButtonText: "Ya, hapus",
-                  cancelButtonText: "Keluar"
+                  cancelButtonText: "Batal"
                 },
                 function(){
                   setTimeout(function(){

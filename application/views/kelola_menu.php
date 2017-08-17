@@ -45,7 +45,7 @@
                         	<td style="padding-top:20px;"><?= $row->harga ?></td>
                         	<td style="padding-top:20px;"><?= $row->kategori ?></td>
                         	<td style="padding-top:20px;"><a href="<?= base_url(); ?>menu?action=detail&sha=<?= $row->sha ?>">Detail Menu</a></td>
-                        	<td style="padding-top:20px;"><a href="<?= base_url(); ?>menu?action=ubah&sha=<?= $row->sha ?>">Ubah</a></td>
+                        	<td style="padding-top:20px;"><a href="<?= base_url(); ?>menu?action=ubah&sha=<?= $row->id ?>">Ubah</a></td>
                         	<td style="padding-top:20px;"><a href="<?= base_url(); ?>menu?action=hapus&sha=<?= $row->sha ?>">Hapus</a></td>
                         </tr>
                       <?php endfor; ?>

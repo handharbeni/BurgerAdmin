@@ -9,6 +9,15 @@ class OutletInterface extends CI_Model {
 	}
 
 	/* @GET /public/list?type=user&access=true */
+	public function getOutletDetail($token)
+	{
+		$user = $this->curl->simple_get($this->endpointUri.'/outlet/?token=' . $token);
+		$result = json_decode($user);
+
+		return $result;
+	}
+
+	/* @GET /public/list?type=user&access=true */
 	public function getList()
 	{
 		$user = $this->curl->simple_get($this->endpointUri.'/public/list?type=outlet&access=true');
@@ -22,6 +31,17 @@ class OutletInterface extends CI_Model {
 	{
 		$order = $this->curl->simple_get($this->endpointUri.'/outlet/order?token='.$token);
 		$result = json_decode($order);
+
+		return $result;
+	}
+
+	/* @GET /outlet/order?order_id={id_order}&token={access_token} */
+	public function getOrderDetail($id, $token)
+	{
+		$this->uri = $this->endpointUri.'/outlet/order?order_id='.$id.'&token='.$token;
+		
+		$rs = $this->curl->simple_get($this->uri);
+		$result = json_decode($rs);
 
 		return $result;
 	}

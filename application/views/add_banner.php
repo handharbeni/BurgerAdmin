@@ -1,4 +1,4 @@
-    <!-- page content -->
+		<!-- page content -->
         <div class="right_col" role="main">
           <div class="">
             <div class="clearfix"></div>
@@ -7,39 +7,24 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Halaman Kurir</h2>
+                    <h2>Halaman Banner</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
 
-                    <form class="form-horizontal form-label-left" action="<?= base_url() ?>do_action?method=add_kurir" method="post" novalidate>
-                      <span class="section">Tambah Kurir</span>
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nama<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="name" class="form-control col-md-7 col-xs-12" name="nama" autocomplete="off" required="required" type="text">
-                        </div>
-                      </div>
+                    <form class="form-horizontal form-label-left" novalidate>
+                      <span class="section">Tambah Banner</span>
 
                       <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Username <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nama Banner <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="name" class="form-control col-md-7 col-xs-12" autocomplete="off" name="username" required="required" type="text">
-                        </div>
-                      </div>
-
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Password <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="name" class="form-control col-md-7 col-xs-12" autocomplete="off" name="password" required="required" type="password">
+                          <input id="name" class="form-control col-md-7 col-xs-12" name="name" autocomplete="off" required="required" type="text">
                         </div>
                       </div>
 
                       <!-- <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Foto Profil
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Gambar <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input required="required" type="file" />
@@ -55,20 +40,30 @@
                       </div>
 
                       <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nomor Handphone <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Keterangan <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="name" class="form-control col-md-7 col-xs-12" autocomplete="off" name="no_hp" required="required" type="text">
+                          <textarea class="form-control col-md-7 col-xs-12" name="keterangan" required="required"></textarea>
                         </div>
                       </div>
 
                       <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nomor Plat <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Posisi <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="name" class="form-control col-md-7 col-xs-12" autocomplete="off" name="no_plat" required="required" type="text">
+                          <input id="name" class="form-control col-md-7 col-xs-12" autocomplete="off" name="posisi" required="required" type="text">
                         </div>
                       </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Status <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select name="status" class="form-control" required="required">
+                              <option value="aktif">Aktif</option>
+                              <option value="tidak_aktif">Tidak Aktif</option>
+                          </select>
+                        </div>
+                      </div>  
 
                       <div class="ln_solid"></div>
                       <div class="form-group">
