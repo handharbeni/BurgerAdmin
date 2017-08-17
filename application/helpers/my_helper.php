@@ -15,7 +15,7 @@ if ( ! function_exists('endpoint_url'))
 {
 	function endpoint_url()
 	{
-		$uri = "http://172.20.10.2:8080";
+		$uri = "http://localhost:8080";
 		return $uri;
 	}
 }

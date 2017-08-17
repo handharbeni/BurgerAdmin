@@ -131,6 +131,7 @@ class Welcome extends CI_Controller {
 
 						case 'hapus':
 							$sha = $this->input->get('sha');
+							$undo = $this->input->get('undo');
 
 							if ( ! $sha)
 							{
@@ -140,11 +141,13 @@ class Welcome extends CI_Controller {
 							$data = array(
 									'token' => $this->sessionAdmin ? 
 									$this->sessionAdmin : $this->sessionOutlet,
-									'method' => 'delete',
+									'method' => $undo ? 'undo' : 'delete',
 									'sha' => $sha
 								);
+							$rs = $this->AdminInterface->postMenu($data);
 
-							$this->AdminInterface->postMenu($data);
+							if ( ! $undo)
+								$this->session->set_userdata( array('hapus_menu' => $rs->new_sha));
 
 							redirect('/menu?action=show');
 						break;
@@ -156,6 +159,7 @@ class Welcome extends CI_Controller {
 							}
 
 							$data['title'] = "Ubah Menu";
+							$data['menu'] = $this->AdminInterface->getMenuDetail($this->token,$_REQUEST['sha']);
 							$data['action'] = $this->uri->segment(1);
 							self::isTemplate('update_menu', $data);
 						break;
@@ -168,7 +172,8 @@ class Welcome extends CI_Controller {
 							else
 							{
 								$data['title'] = "Detail: ";
-								self::isTemplate('example',$data);
+								$data['menu'] = $this->AdminInterface->getMenuDetail($this->token,$_REQUEST['sha']);
+								self::isTemplate('detail_menu',$data);
 							}
 						break;
 
@@ -492,6 +497,33 @@ class Welcome extends CI_Controller {
 									'nama' => $nama_menu,
 									'gambar' => $gambar,
 									'harga' => $harga,
+									'kategori' => $kategori
+								);
+
+							$this->AdminInterface->postMenu($data);
+
+							redirect('/menu?action=show');
+						break;
+
+						case 'update_menu':
+							$nama_menu = $this->input->post('nama');
+							$gambar = $this->input->post('gambar');
+							$harga = $this->input->post('harga');
+							$kategori = $this->input->post('kategori');
+
+							if ( ! $nama_menu || ! $gambar || ! $harga)
+							{
+								redirect('/');
+							}
+
+							$data = array(
+									'token' => $this->sessionAdmin 
+									? $this->sessionAdmin : $this->sessionOutlet,
+									'method' => 'update',
+									'nama' => $nama_menu,
+									'gambar' => $gambar,
+									'harga' => $harga,
+									'sha' => $this->input->post('sha'),
 									'kategori' => $kategori
 								);
 

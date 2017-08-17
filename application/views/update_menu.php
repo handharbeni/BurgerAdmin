@@ -7,19 +7,23 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Ubah Menu></h2>
+                    <h2>Ubah Menu </h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-
-                    <form class="form-horizontal form-label-left" action="<?= base_url();?>do_action?method=add_menu" method="post" novalidate>
-                      <span class="section">Ubah Menu</span>
+                    <?php if ( ! $menu->return): ?>
+                     <h3 class="text-center">Maaf, data menu tidak ditemukan!</h3>
+                    <?php else: 
+                    $data = $menu->data[0];
+                    ?>
+                    <form class="form-horizontal form-label-left" action="<?= base_url();?>do_action?method=update_menu" method="post" novalidate>
+                      <span class="section">Ubah Menu <?= "#".$data->id ?></span>
 
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nama Menu <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="name" class="form-control col-md-7 col-xs-12" name="name" autocomplete="off" required="required" type="text">
+                          <input id="name" class="form-control col-md-7 col-xs-12" name="nama" autocomplete="off" required="required" type="text" value="<?= $data->nama ?>">
                         </div>
                       </div>
 
@@ -35,7 +39,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">URL Gambar <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="name" class="form-control col-md-7 col-xs-12" name="gambar" autocomplete="off" required="required" type="text">
+                          <input id="name" class="form-control col-md-7 col-xs-12" name="gambar" autocomplete="off" required="required" type="text" value="<?= $data->gambar ?>"> 
                         </div>
                       </div>
 
@@ -43,9 +47,11 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Harga <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="name" class="form-control col-md-7 col-xs-12" autocomplete="off" name="harga" required="required" type="text">
+                          <input id="name" class="form-control col-md-7 col-xs-12" autocomplete="off" name="harga" required="required" type="text" value="<?= $data->harga ?>">
                         </div>
                       </div>
+
+                      <input type="hidden" name="sha" value="<?= $this->input->get('sha'); ?>" />
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Kategori <span class="required">*</span></label>
@@ -65,6 +71,7 @@
                         </div>
                       </div>
                     </form>
+                    <?php endif; ?>
                   </div>
                 </div>
               </div>

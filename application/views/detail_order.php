@@ -14,7 +14,7 @@
                     <?php if ( ! $order->return): ?>
                     <h3 class="text-center">Maaf, data pesanan tidak ditemukan!</h3>
                     <?php else: 
-                    $data = $order->data;
+                    $data = $order->data[0];
                     ?>
                     <?php if ( $data->kurir != 'nothing'): ?>
                     <div class="col-md-3 col-sm-3 col-xs-12 profile_left">

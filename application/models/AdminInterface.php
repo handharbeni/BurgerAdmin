@@ -26,6 +26,15 @@ class AdminInterface extends CI_Model {
 		return $result;
 	}
 
+	/* @GET /admin/menu?token=:access_token&&sha=:sha */
+	public function getMenuDetail($token,$sha)
+	{
+		$menu = $this->curl->simple_get($this->endpointUri.'/admin/menu?token='.$token.'&sha='.$sha);
+		$result = json_decode($menu);
+
+		return $result;
+	}
+
 	/* @POST /admin/menu */
 	public function postMenu($data)
 	{
