@@ -6,10 +6,11 @@ class Welcome extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->endpointUri = "http://burgertahumalang.com/dev/api/";
+		$this->endpointUri = endpoint_url();
 		$this->admin = $this->user_auth->loginAuth();
 		$this->sessionAdmin = $this->session->userdata('adminKey');
 		$this->sessionOutlet = $this->session->userdata('outletKey');
+		$this->token = $this->sessionOutlet ? $this->sessionOutlet : $this->sessionAdmin;
 	}
 	
 	public function index()
@@ -74,19 +75,20 @@ class Welcome extends CI_Controller {
 					switch($getAction) 
 					{
 						case 'detail':
-							$data['order'] = $this->AdminInterface->getOrderDetail($_REQUEST['id_order']);
+							$data['order'] = $this->sessionAdmin ? 
+							$this->AdminInterface->getOrderDetail($_REQUEST['id_order'], $this->token) :
+							$this->OutletInterface->getOrderDetail($_REQUEST['id_order'], $this->token);
 							$data['title'] = 'Detail Order';
 							self::isTemplate('detail_order' , $data);
 						break;
 
+						// case 'accept-order':
+						// 	$data['title'] = 'Terima Pesanan';
+						// 	$data['order'] = $this->AdminInterface->getOrderDetail($_REQUEST['id_order'], $this->token);
+						// 	$data['kurir'] = $this->KurirInterface->getList();
+						// 	self::isTemplate('accept_order' , $data);
+						// break;
 
-						case 'accept-order':
-							$data['title'] = 'Terima Pesanan';
-							$data['order'] = $this->AdminInterface->getOrderDetail($_REQUEST['id_order']);
-							$data['kurir'] = $this->KurirInterface->getList();
-							self::isTemplate('accept_order' , $data);
-						break;
-						
 						default:
 							show_404();
 						break;
@@ -125,6 +127,37 @@ class Welcome extends CI_Controller {
 							$data['title'] = "Tambah Menu";
 							$data['action'] = $this->uri->segment(1);
 							self::isTemplate('add_menu', $data);
+						break;
+
+						case 'hapus':
+							$sha = $this->input->get('sha');
+
+							if ( ! $sha)
+							{
+								redirect('/');
+							}
+
+							$data = array(
+									'token' => $this->sessionAdmin ? 
+									$this->sessionAdmin : $this->sessionOutlet,
+									'method' => 'delete',
+									'sha' => $sha
+								);
+
+							$this->AdminInterface->postMenu($data);
+
+							redirect('/menu?action=show');
+						break;
+
+						case 'ubah':
+							if ( ! $this->input->get('sha'))
+							{
+								redirect('/');
+							}
+
+							$data['title'] = "Ubah Menu";
+							$data['action'] = $this->uri->segment(1);
+							self::isTemplate('update_menu', $data);
 						break;
 
 						case 'detail':
@@ -266,6 +299,8 @@ class Welcome extends CI_Controller {
 									'method' => 'add_outlet',
 									'id_resto' => $_POST['resto'],
 									'nama_outlet' => $_POST['outlet'],
+									'latitude' => $_POST['lat'],
+									'longitude' => $_POST['long'],
 									'alamat' => $_POST['alamat'],
  									'username' => $_POST['username'],
 									'password' => $_POST['password']
@@ -291,8 +326,10 @@ class Welcome extends CI_Controller {
 							}
 							else
 							{
-								$data['title'] = "Detail: ";
-								self::isTemplate('example',$data);
+								$data['outlet'] = $this->OutletInterface->getOutletDetail($_REQUEST['token']);
+								$data['title'] = ($data['outlet']->return) ? 
+								'Detail: '. $data['outlet']->data[0]->outlet->nama_outlet: 'Outlet not found';
+								self::isTemplate('detail_outlet',$data);
 							}
 						break;
 
@@ -315,21 +352,29 @@ class Welcome extends CI_Controller {
 					{
 						case 'show':
 							$data['title'] = "Lihat Banner";
-							self::isTemplate('example' , $data);
+							$data['userdata'] = $this->UserInterface->getList();
+							self::isTemplate('kelola_banner' , $data);
 						break;
 
 						case 'add':
 							$data['title'] = "Tambah Banner";
-							self::isTemplate('example' , $data);
+							$data['action'] = $this->uri->segment(1);
+							self::isTemplate('add_banner' , $data);
 						break;
 					}
 				}
 			break;
 
 			case 'profile':
+				if ( ! $this->sessionAdmin)
+				{
+					// not authorized!
+					redirect();
+				}
+
 				self::hasLogin();
-				$data['title'] = 'Profil';
-				self::isTemplate('example' , $data);
+				$data['title'] = 'Profile Admin';
+				self::isTemplate('profile' , $data);
 			break;
 
 			case 'settings':
@@ -397,7 +442,7 @@ class Welcome extends CI_Controller {
 									'id_kurir' => $this->input->post('kurir')
 								);
 
-							$this->AdminInterface->postOrderToCourier($data);
+							$this->AdminInterface->postKurir($data);
 							
 							redirect('/pesanan');
 						break;
@@ -427,6 +472,55 @@ class Welcome extends CI_Controller {
 								));
 
 							redirect('/settings');
+						break;
+
+						case 'add_menu':
+							$nama_menu = $this->input->post('name');
+							$gambar = $this->input->post('gambar');
+							$harga = $this->input->post('harga');
+							$kategori = $this->input->post('kategori');
+
+							if ( ! $nama_menu || ! $gambar || ! $harga)
+							{
+								redirect('/');
+							}
+
+							$data = array(
+									'token' => $this->sessionAdmin 
+									? $this->sessionAdmin : $this->sessionOutlet,
+									'method' => 'add',
+									'nama' => $nama_menu,
+									'gambar' => $gambar,
+									'harga' => $harga,
+									'kategori' => $kategori
+								);
+
+							$this->AdminInterface->postMenu($data);
+
+							redirect('/menu?action=show');
+						break;
+
+						case 'add_kurir':
+							if ( ! $this->input->post())
+							{
+								redirect('/');
+							}
+
+							print_r($this->input->post());
+							$data = array(
+									'token' => $this->token,
+									'method' => 'add_kurir',
+									'nama' => $this->input->post('nama'),
+									'username' => $this->input->post('username'),
+									'password' => md5($this->input->post('password')),
+									'foto' => $this->input->post('gambar'),
+									'no_hp' => $this->input->post('no_hp'),
+									'no_plat' => $this->input->post('no_plat')
+								);
+
+							$this->AdminInterface->postKurir($data);
+							
+							redirect('/kurir?action=show');
 						break;
 
 						default:

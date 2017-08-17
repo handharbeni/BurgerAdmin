@@ -14,7 +14,9 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <?php if($this->session->userdata('adminKey')): ?>
                     <li><a href="/profile"> Profil</a></li>
+                    <?php endif; ?>
                     <li>
                       <a href="/settings">
                         <!-- <span class="badge bg-red pull-right">50%</span> -->

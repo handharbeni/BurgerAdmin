@@ -81,8 +81,6 @@
                                 <h2 class="title"><strong><?= ( $data->total_belanja != null) ? $data->total_belanja : 'Tidak Ada'; ?></strong></h2>
                                 <h5>Status Pemesanan</h5>
                                 <h2 class="title"><strong><?= ( $data->status->value != null) ? $data->status->value : 'Tidak Ada'; ?></strong></h2>
-                                <h5>Peta</h5>
-                                <h2 class="title"><strong>GAMBAR MAPS {lat,lang}</strong></h2>
                               </div>
                             </div>
                           </li>
@@ -100,8 +98,6 @@
                                 <h5>Alamat</h5>
                                 <h2 class="title"><strong><?= ( $data->outlet->alamat != null) 
                                 ? $data->outlet->alamat : 'Tidak Ada'; ?></strong></h2>
-                                <h5>Peta</h5>
-                                <h2 class="title"><strong>GAMBAR MAPS {lat,lang}</strong></h2>
                             </div>
                           </li>
                           <li>

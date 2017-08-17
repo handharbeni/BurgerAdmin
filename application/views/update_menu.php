@@ -7,13 +7,13 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Halaman Menu</h2>
+                    <h2>Ubah Menu></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
 
                     <form class="form-horizontal form-label-left" action="<?= base_url();?>do_action?method=add_menu" method="post" novalidate>
-                      <span class="section">Tambah Menu</span>
+                      <span class="section">Ubah Menu</span>
 
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nama Menu <span class="required">*</span>
@@ -61,7 +61,7 @@
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
                           <button type="button" onclick="this.form.reset()" class="btn btn-primary">Ulangi</button>
-                          <button id="send" type="submit" class="btn btn-success">Tambah</button>
+                          <button id="send" type="submit" class="btn btn-success">Ubah</button>
                         </div>
                       </div>
                     </form>

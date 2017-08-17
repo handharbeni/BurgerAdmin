@@ -26,6 +26,15 @@ class AdminInterface extends CI_Model {
 		return $result;
 	}
 
+	/* @POST /admin/menu */
+	public function postMenu($data)
+	{
+		$menu = $this->curl->simple_post($this->endpointUri.'/admin/menu' , $data);
+		$result = json_decode($menu);
+
+		return $result;
+	}
+
 	/* @GET /public/list?type=resto&access=true */
 	public function getListResto()
 	{
@@ -59,11 +68,10 @@ class AdminInterface extends CI_Model {
 		return $result;
 	}
 
-	/* Example Order Detail kurir */
-	/* @GET /kurir/order?order_id={id_order}&token={access_token} */
-	public function getOrderDetail($id)
+	/* @GET /admin/order?order_id={id_order}&token={access_token} */
+	public function getOrderDetail($id, $token)
 	{
-		$this->uri = $this->endpointUri.'/kurir/order?order_id='.$id.'&token=keykurirsatu';
+		$this->uri = $this->endpointUri.'/admin/order?order_id='.$id.'&token='.$token;
 		
 		$rs = $this->curl->simple_get($this->uri);
 		$result = json_decode($rs);
@@ -84,7 +92,7 @@ class AdminInterface extends CI_Model {
 	}
 
 	/* @POST /admin/kurir */
-	public function postOrderToCourier($data)
+	public function postKurir($data)
 	{
 		$this->uri = $this->endpointUri.'/admin/kurir';
 

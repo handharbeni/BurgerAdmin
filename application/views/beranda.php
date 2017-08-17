@@ -65,7 +65,7 @@
                         <div class="tile-stats">
                           <a href="<?= base_url() ?>menu?action=show"><div class="icon"><i class="fa fa-book"></i>
                           </div>
-                          <div class="count"><?= count($menu->data) ?></div>
+                          <div class="count"><?= $menu->return ? count($menu->data) : 0 ?></div>
 
                           <h3>Menu</h3>
                           <p>Menu yang tersedia.</p>
