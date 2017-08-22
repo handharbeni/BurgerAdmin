@@ -8,6 +8,33 @@ class AdminInterface extends CI_Model {
 		$this->endpointUri = endpoint_url();
 	}
 
+	/* @GET /admin/?token=:access_token */
+	public function getDetail($token)
+	{
+		$admin = $this->curl->simple_get($this->endpointUri.'/admin/?token='.$token);
+		$result = json_decode($admin);
+
+		return $result;
+	}
+
+	/* @GET /admin/?token=:access_token */
+	public function getDetailWithPassword($token)
+	{
+		$admin = $this->curl->simple_get($this->endpointUri.'/admin/?token='.$token.'&getpwd=true');
+		$result = json_decode($admin);
+
+		return $result;
+	}
+
+	/* @POST /admin/menu */
+	public function postUpdateProfile($data)
+	{
+		$x = $this->curl->simple_post($this->endpointUri.'/admin/profile' , $data);
+		$result = json_decode($x);
+
+		return $result;
+	}
+
 	/* @GET /admin/order?token=:access_token */
 	public function getOrder($token)
 	{
@@ -54,7 +81,7 @@ class AdminInterface extends CI_Model {
 	}
 
 	/* @POST /admin/outlet */
-	public function postAddOutlet($data)
+	public function postOutlet($data)
 	{
 		$outlet = $this->curl->simple_post($this->endpointUri.'/admin/outlet' , $data);
 		$result = json_decode($outlet);
@@ -107,6 +134,17 @@ class AdminInterface extends CI_Model {
 
 		$order = $this->curl->simple_post($this->uri, $data);
 		$result = json_decode($order);
+
+		return $result;
+	}
+
+	/* @GET /public/feature?type=banner&access=true */
+	public function getBanner()
+	{
+		$this->uri = $this->endpointUri.'/public/feature?type=banner&access=true';
+		
+		$rs = $this->curl->simple_get($this->uri);
+		$result = json_decode($rs);
 
 		return $result;
 	}

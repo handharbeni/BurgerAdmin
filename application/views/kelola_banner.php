@@ -13,11 +13,11 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Banner yang tersedia (<?= count($userdata->data) ?>)</h2>
+                    <h2>Banner yang tersedia (<?= count($banner->data) ?>)</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                  <?php if( ! $userdata->return): ?>
+                  <?php if( ! $banner->return): ?>
                   <h3>Pengguna belum ada!</h3>
                   <?php else: ?>
                 	<table id="datatable" class="table table-striped table-bordered">
@@ -27,7 +27,6 @@
                           <th class="text-center">Nama</th>
                           <th class="text-center">Keterangan</th>
                           <th class="text-center">Gambar</th>
-                          <th class="text-center">Posisi</th>
                           <th class="text-center">Status</th>
                           <th colspan="3" style="text-align:center;">Aksi</th>
                         </tr>
@@ -35,17 +34,17 @@
 
                       <tbody class="text-center">
 
-                        <?php for($i = 0; $i <= count($userdata->data)-1; $i ++): 
-                        $row = $userdata->data;
+                        <?php for($i = 0; $i <= count($banner->data)-1; $i ++): 
+                        $row = $banner->data;
                         ?>
                         <tr>
                           <td><?= $i + 1; ?></td>
-                        	<td>Banner Pertama</td>
-                        	<td>ini banner pertama</td>
-                          <td>img src</td>
-                          <td>1</td>
-                          <td>Aktif</td>
-                        	<td><a href="/user?action=detail&token=<?= $row[$i]->key?>">Detail Pengguna</a></td>
+                        	<td><?= $row[$i]->nama ?></td>
+                          <td><?= strlen($row[$i]->keterangan > 20) ? 
+                            substr($row[$i]->keterangan, 0,20).'...' : $row[$i]->keterangan; ?></td>
+                          <td><?= $row[$i]->gambar ?></td>
+                           <td><?= $row[$i]->posisi == 0 ? 'Tidak Aktif' : 'Aktif' ?></td>
+                        	<td><a href="/banner?action=detail&token=<?= $row[$i]->sha?>">Detail Banner</a></td>
                           <td><a href="#">Ubah</a></td>
                           <td><a href="">Hapus</a></td>
                         </tr>

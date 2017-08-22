@@ -30,7 +30,6 @@ class User_Auth {
 
 			return $result;
 		}
-
 		return false;
 	}
 }

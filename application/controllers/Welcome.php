@@ -215,16 +215,41 @@ class Welcome extends CI_Controller {
 
 							$result = $this->UserInterface->getUserDetail($getToken);
 
-							if ( ! $result)
+							if ( ! $result->return)
 							{
 								redirect('/user?action=show');
 							}
 							else
 							{
-								$data = $result->data;
+								// $data = $result->data;
 
-								print_r($data);
+								// print_r($data);
+								$data['title'] = "Detail Pengguna";
+								$data['user'] = $result;
+								self::isTemplate('detail_user', $data);
 							}
+						break;
+
+						case 'hapus':
+							$getdata = $this->input->get();
+
+							if ( ! $getdata['token'])
+							{
+								show_404();
+							}
+
+							$data = array(
+									'token' => $this->token,
+									'method' => $getdata['undo'] ? 'undo' : 'delete_user',
+									'user_token' => $getdata['token']
+								);
+
+							$result = $this->UserInterface->postHapusUser($data);
+
+							if ( ! $getdata['undo'])
+								$this->session->set_userdata( array('hapus_user' => $getdata['token']));
+
+							redirect('/user?action=show');
 						break;
 
 						default:
@@ -311,11 +336,11 @@ class Welcome extends CI_Controller {
 									'password' => $_POST['password']
 								);
 
-							$result = $this->AdminInterface->postAddOutlet($data);
+							$result = $this->AdminInterface->postOutlet($data);
 
 							if ( $result->return )
 							{
-								redirect('/outlet?action=add');
+								redirect('/outlet?action=show');
 							}
 							else
 							{
@@ -338,6 +363,70 @@ class Welcome extends CI_Controller {
 							}
 						break;
 
+						case 'hapus':
+							$sha = $this->input->get('token');
+							$undo = $this->input->get('undo');
+
+							if ( ! $sha)
+							{
+								redirect('/');
+							}
+
+							$data = array(
+									'token' => $sha,
+									'method' => $undo ? 'undo' : 'delete_outlet',
+								);
+							
+							$this->AdminInterface->postOutlet($data);
+
+							if ( ! $undo)
+								$this->session->set_userdata( array('hapus_outlet' => $sha));
+
+							redirect('/outlet?action=show');
+						break;
+
+						case 'edit':
+							$getdata = $this->input->get();
+
+							if ( ! $getdata['token'])
+							{
+								redirect(base_url());
+							}
+
+							$data['title'] = "Edit Outlet";
+							$data['action'] = $this->uri->segment(1);
+							$data['outlet'] = $this->OutletInterface->getOutletDetail($getdata['token']);
+							$data['resto'] = $this->AdminInterface->getListResto();
+							self::isTemplate('update_outlet', $data);
+						break;
+
+						case 'update_outlet':
+								$data = array(
+									'token' => $_POST['token'],
+									'method' => 'update_outlet',
+									'nama_outlet' => $_POST['outlet'],
+									'latitude' => $_POST['lat'],
+									'longitude' => $_POST['long'],
+									'alamat' => $_POST['alamat'],
+ 									'username' => $_POST['username']
+ 										? $_POST['username'] : $_POST['x'],
+									'password' => $_POST['password']
+								);
+
+							$result = $this->AdminInterface->postOutlet($data);
+
+							if ( $result->return )
+							{
+								redirect('/outlet?action=show');
+							}
+							else
+							{
+
+								$_SESSION['outlet_update'] = 'Gagal: '.$result->error_message;
+								redirect('/outlet?action=edit&token='.$_POST['token']);
+							}
+						break;
+
 						default:
 							show_404();
 						break;
@@ -357,7 +446,7 @@ class Welcome extends CI_Controller {
 					{
 						case 'show':
 							$data['title'] = "Lihat Banner";
-							$data['userdata'] = $this->UserInterface->getList();
+							$data['banner'] = $this->AdminInterface->getBanner();
 							self::isTemplate('kelola_banner' , $data);
 						break;
 
@@ -376,9 +465,51 @@ class Welcome extends CI_Controller {
 					// not authorized!
 					redirect();
 				}
-
 				self::hasLogin();
+
 				$data['title'] = 'Profile Admin';
+				$data['action'] = $this->uri->segment(1);
+				$data['admin'] = $this->AdminInterface->getDetailWithPassword($this->token);
+				$this->adminpwd = null;
+
+				if ( $data['admin']->return)
+				{
+					$this->adminpwd = $data['admin']->data[0]->password;
+				}
+
+				if ( $this->input->get('method'))
+				{
+					$postdata = array(
+							'username' => $this->input->post('username'),
+							'new_pwd' => $this->input->post('pwd'),
+							'old_pwd' => md5($this->input->post('now_pwd')),
+							'old_pwd_conf' => md5($this->input->post('now_pwd_conf'))
+						);
+
+					if ( $postdata['old_pwd'] != $postdata['old_pwd_conf'])
+					{
+						$this->session->set_userdata( array('error_profile' => 'Password tidak sama!'));
+					}
+					elseif ( $postdata['old_pwd'] != $this->adminpwd)
+					{
+						$this->session->set_userdata( array('error_profile' => 'Password salah!'));
+					}
+					else
+					{
+						$this->session->set_userdata( array('error_profile' => 'Berhasil mengubah profil!'));
+						$data = array(
+								'token' => $this->sessionAdmin,
+								'method' => 'update',
+								'username' => $postdata['username'],
+								'password' => $postdata['new_pwd']
+							);
+
+						$this->AdminInterface->postUpdateProfile($data);
+					}
+
+					redirect(base_url().'profile');
+				}
+
 				self::isTemplate('profile' , $data);
 			break;
 
@@ -425,6 +556,7 @@ class Welcome extends CI_Controller {
 								{
 									$_SESSION['outletKey'] = $result->data->key;
 								}
+								$_SESSION['adminpwd'] = $_POST['password'];
 								redirect('/beranda');
 							}
 							else

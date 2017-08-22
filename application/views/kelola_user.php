@@ -15,6 +15,11 @@
                   <div class="x_title">
                     <h2>Pengguna yang tersedia (<?= count($userdata->data) ?>)</h2>
                     <div class="clearfix"></div>
+                    <?php if ( $this->session->userdata('hapus_user')): ?>
+                    <h5>Menu berhasil dihapus. <a href="<?= base_url() ?>user?action=hapus&token=<?= $this->session->userdata('hapus_user'); ?>&undo=true">Tidak jadi</a></h5>
+                   <?php 
+                   $this->session->unset_userdata('hapus_user');
+                   endif; ?>
                   </div>
                   <div class="x_content">
                   <?php if( ! $userdata->return): ?>
@@ -46,7 +51,7 @@
                         	<td><?= $row[$i]->alamat ? $row[$i]->alamat : "Belum Ada" ?></td>
                           <td><?= $row[$i]->tanggal_buat ? $row[$i]->tanggal_buat : "Belum Ada" ?></td>
                         	<td><a href="/user?action=detail&token=<?= $row[$i]->key?>">Detail Pengguna</a></td>
-                          <td><a href="">Hapus</a></td>
+                          <td style="cursor: default;"><a onclick="deleteUser('<?= base_url(); ?>user?action=hapus&token=<?= $row[$i]->key ?>')">Hapus</a></td>
                         </tr>
                       <?php endfor; ?>
                     </table>

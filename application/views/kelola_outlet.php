@@ -15,6 +15,11 @@
                   <div class="x_title">
                     <h2>Oulet yang tersedia (<?= count($outletdata->data) ?>)</h2>
                     <div class="clearfix"></div>
+                    <?php if ( $this->session->userdata('hapus_outlet')): ?>
+                    <h5>Outlet berhasil dihapus. <a href="<?= base_url() ?>outlet?action=hapus&token=<?= $this->session->userdata('hapus_outlet'); ?>&undo=true">Tidak jadi</a></h5>
+                   <?php 
+                   $this->session->unset_userdata('hapus_outlet');
+                   endif; ?>
                   </div>
                   <div class="x_content">
                   <?php if( ! $outletdata->return): ?>
@@ -39,9 +44,9 @@
                           <td><?= $i + 1; ?></td>
                         	<td><?= $row[$i]->nama_outlet ?></td>
                         	<td><?= $row[$i]->alamat ?></td>
-                        	<td><a href="/outlet?action=detail&token=<?= $row[$i]->token ?>">Detail Outlet</a></td>
-                          <td><a href="#">Ubah</a></td>
-                          <td><a href="#">Hapus</a></td>
+                        	<td><a href="<?= base_url() ?>outlet?action=detail&token=<?= $row[$i]->token ?>">Detail Outlet</a></td>
+                          <td><a href="<?= base_url() ?>outlet?action=edit&token=<?= $row[$i]->token ?>">Ubah</a></td>
+                          <td style="cursor: default;"><a onclick="deleteOutlet('<?= base_url(); ?>outlet?action=hapus&token=<?= $row[$i]->token ?>','<?= $row[$i]->nama_outlet ?>')">Hapus</a></td>
                         </tr>
                       <?php endfor; ?>
                     </table>

@@ -25,4 +25,13 @@ class UserInterface extends CI_Model {
 
 		return $result;
 	}
+
+	/* @POST /admin/user */
+	public function postHapusUser($data)
+	{
+		$x = $this->curl->simple_post($this->endpointUri.'/admin/user' , $data);
+		$result = json_decode($x);
+
+		return $result;
+	}
 }

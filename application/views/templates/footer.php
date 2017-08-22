@@ -52,6 +52,78 @@
     <!-- Sweet alert -->
     <script type="text/javascript" src="<?=base_url()?>/build/js/sweetalert.min.js"></script>
 
+    <?php if ( $this->uri->segment(1) == 'menu'): ?>
+    <script type="text/javascript">
+        function deleteMenu(nextUri)
+        {
+          swal({
+                  title: "Hapus menu?",
+                  text: "Menu akan dihapus apabila memilih <strong>Ya</strong>",
+                  type: "warning",
+                  html: true,
+                  showCancelButton: true,
+                  closeOnConfirm: false,
+                  showLoaderOnConfirm: true,
+                  confirmButtonText: "Ya, hapus",
+                  cancelButtonText: "Keluar"
+                },
+                function(){
+                  setTimeout(function(){
+                      window.location.href = nextUri;
+                  }, 2000);
+                });
+        }
+    </script>
+    <?php endif; ?>
+
+     <?php if ( $this->uri->segment(1) == 'user'): ?>
+    <script type="text/javascript">
+        function deleteUser(nextUri)
+        {
+          swal({
+                  title: "Hapus pengguna?",
+                  text: "Pengguna akan dihapus apabila memilih <strong>Ya</strong>",
+                  type: "warning",
+                  html: true,
+                  showCancelButton: true,
+                  closeOnConfirm: false,
+                  showLoaderOnConfirm: true,
+                  confirmButtonText: "Ya, hapus",
+                  cancelButtonText: "Keluar"
+                },
+                function(){
+                  setTimeout(function(){
+                      window.location.href = nextUri;
+                  }, 2000);
+                });
+        }
+    </script>
+    <?php endif; ?>
+
+    <?php if ( $this->uri->segment(1) == 'outlet'): ?>
+    <script type="text/javascript">
+        function deleteOutlet(nextUri, outletName)
+        {
+          swal({
+                  title: "Hapus outlet?",
+                  text: "Outlet <strong>" + outletName + "</strong> akan dihapus apabila memilih <strong>Ya</strong>",
+                  type: "warning",
+                  html: true,
+                  showCancelButton: true,
+                  closeOnConfirm: false,
+                  showLoaderOnConfirm: true,
+                  confirmButtonText: "Ya, hapus",
+                  cancelButtonText: "Keluar"
+                },
+                function(){
+                  setTimeout(function(){
+                      window.location.href = nextUri;
+                  }, 2000);
+                });
+        }
+    </script>
+    <?php endif; ?>
+
     <?php if ( $this->uri->segment(1) == 'pesanan'): ?>
     <!-- Pesanan JS -->
     <script type="text/javascript">
@@ -105,7 +177,7 @@
           swal("Proses!", "Order sedang diproses!", "info");
         }
 
-        function deleteOrder()
+        function deleteOrder(baseUrl)
         {
           swal({
                   title: "Hapus pesanan?",
@@ -120,7 +192,7 @@
                 },
                 function(){
                   setTimeout(function(){
-                    swal("Berhasil!", "Pesanan berhasil dihapus!", "success");
+                    swal("Berhasil!", "Pesanan berhasil dihapus!" + baseUrl, "success");
                   }, 2000);
                 });
         }

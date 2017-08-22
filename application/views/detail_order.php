@@ -6,7 +6,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2><a href="<?= base_url().'pesanan'; ?>"><span class="fa fa-chevron-left"></span>&nbsp;</a> Data Pesanan</h2>
+                    <h2><a href="<?= base_url().'pesanan'; ?>"><span class="fa fa-chevron-left"></span>&nbsp;</a> Data Pesanan <?= $order->return ? "#".$order->data[0]->id_order : null;?></h2>
                     </ul>
                     <div class="clearfix"></div>
                   </div>

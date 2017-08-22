@@ -38,7 +38,7 @@
                   <li><a><i class="fa fa-user"></i>Pengguna <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?= base_url() ?>user?action=show">Lihat Pengguna</a></li>
-                      <li><a href="<?= base_url() ?>user?action=add">Tambah Pengguna</a></li>
+                      <!-- <li><a href="<?= base_url() ?>user?action=add">Tambah Pengguna</a></li> -->
                     </ul>
                   </li>
 

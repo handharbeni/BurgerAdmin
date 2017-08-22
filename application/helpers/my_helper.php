@@ -15,7 +15,7 @@ if ( ! function_exists('endpoint_url'))
 {
 	function endpoint_url()
 	{
-		$uri = "http://burgertahumalang.com/dev/api/";
+		$uri = "http://localhost:8080";
 		return $uri;
 	}
 }
