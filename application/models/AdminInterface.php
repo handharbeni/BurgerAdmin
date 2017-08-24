@@ -26,7 +26,7 @@ class AdminInterface extends CI_Model {
 		return $result;
 	}
 
-	/* @POST /admin/menu */
+	/* @POST /admin/profile */
 	public function postUpdateProfile($data)
 	{
 		$x = $this->curl->simple_post($this->endpointUri.'/admin/profile' , $data);

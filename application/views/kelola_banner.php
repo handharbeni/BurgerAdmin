@@ -24,10 +24,9 @@
                       <thead>
                         <tr>
                           <th class="text-center">No.</th>
+                          <th class="text-center">Posisi</th>
                           <th class="text-center">Nama</th>
                           <th class="text-center">Keterangan</th>
-                          <th class="text-center">Gambar</th>
-                          <th class="text-center">Status</th>
                           <th colspan="3" style="text-align:center;">Aksi</th>
                         </tr>
                       </thead>
@@ -39,11 +38,10 @@
                         ?>
                         <tr>
                           <td><?= $i + 1; ?></td>
-                        	<td><?= $row[$i]->nama ?></td>
+                           <td><?= $row[$i]->posisi ?></td>
+                          <td><?= $row[$i]->nama ?></td>
                           <td><?= strlen($row[$i]->keterangan > 20) ? 
                             substr($row[$i]->keterangan, 0,20).'...' : $row[$i]->keterangan; ?></td>
-                          <td><?= $row[$i]->gambar ?></td>
-                           <td><?= $row[$i]->posisi == 0 ? 'Tidak Aktif' : 'Aktif' ?></td>
                         	<td><a href="/banner?action=detail&token=<?= $row[$i]->sha?>">Detail Banner</a></td>
                           <td><a href="#">Ubah</a></td>
                           <td><a href="">Hapus</a></td>

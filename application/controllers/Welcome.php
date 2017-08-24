@@ -117,9 +117,7 @@ class Welcome extends CI_Controller {
 					{
 						case 'show':
 							$data['title'] = "Kelola Menu";
-							$data['menu'] = $this->sessionAdmin ? 
-							$this->AdminInterface->getMenu($this->sessionAdmin) :
-							$this->OutletInterface->getMenu($this->sessionOutlet); 
+							$data['menu'] = $this->AdminInterface->getMenu($this->token);
 							self::isTemplate('kelola_menu', $data);
 						break;
 
@@ -127,6 +125,13 @@ class Welcome extends CI_Controller {
 							$data['title'] = "Tambah Menu";
 							$data['action'] = $this->uri->segment(1);
 							self::isTemplate('add_menu', $data);
+						break;
+
+						case 'add_stok':
+							$data['title'] = "Tambah Stok";
+							$data['action'] = $this->uri->segment(1);
+							$data['menuList'] = $this->AdminInterface->getMenu($this->token);
+							self::isTemplate('add_stok', $data);
 						break;
 
 						case 'hapus':
@@ -207,7 +212,7 @@ class Welcome extends CI_Controller {
 						break;
 
 						case 'detail':
-							$getToken = @$_REQUEST['token'];
+							$getToken = $_REQUEST['token'];
 							if ( ! $getToken)
 							{
 								show_404();

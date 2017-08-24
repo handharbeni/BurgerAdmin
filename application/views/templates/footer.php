@@ -54,6 +54,8 @@
 
     <?php if ( $this->uri->segment(1) == 'menu'): ?>
     <script type="text/javascript">
+        $("#stokSekarang").hide();
+
         function deleteMenu(nextUri)
         {
           swal({
@@ -72,6 +74,39 @@
                       window.location.href = nextUri;
                   }, 2000);
                 });
+        }
+
+        this.stok = null;
+        this.jumlahStok = null;
+
+        function changeMenu(stok)
+        {
+          this.stok = stok;
+          $("#stokSekarang").show();
+          $("#stokSekarang").html("Stok sekarang: <strong>" + stok + "</strong>");
+        }
+
+        function confirmAddStok(form)
+        {   
+            if ( form.jumlahTambahStok.value == null || form.jumlahTambahStok.value == ''
+              || form.nama_menu.value == null || form.nama_menu.value == '')
+            {
+              return false;
+            }
+            else
+            {
+              if ( this.stok == '' || this.stok == null)
+              {
+                this.jumlahStok = 0;
+              }
+              else
+              {
+                this.jumlahStok = parseInt(this.stok);
+              }
+
+              this.total = this.jumlahStok + parseInt(form.jumlahTambahStok.value);
+              swal("Tambah Stok?", "Apabila setuju total stok akan menjadi " + this.total , "warning");
+            }
         }
     </script>
     <?php endif; ?>
@@ -239,11 +274,6 @@
                     swal("Berhasil!", "Pesanan berhasil dihapus!", "success");
                   }, 2000);
                 });
-        }
-
-        function changeKurir(x)
-        {
-          // alert("Selected: " + x);
         }
     </script>
     <?php endif; ?>

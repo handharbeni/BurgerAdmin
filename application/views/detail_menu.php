@@ -44,6 +44,29 @@
                          <?= $data->kategori ; ?>
                         </div>
                       </div>
+
+                      <hr/>
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nama">Stok Semua</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                         <?= $data->stok->jumlah ; ?>
+                        </div>
+                      </div>
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nama">Terpakai</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                         <?= $data->stok->digunakan ; ?>
+                        </div>
+                      </div>
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nama">Tersisa</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                         <?= $data->stok->sisa ; ?>
+                        </div>
+                      </div>
                      <!--  <div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
                           <a href="https://www.google.com/maps/preview/@<?= $data->outlet->latitude; ?>,<?= $data->outlet->longitude;?>,17z" style="border-bottom:1px dashed #000" target="_blank">Lihat di Google Maps</a>

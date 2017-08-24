@@ -32,6 +32,7 @@
                           <th class="text-center">Nama Item</th>
                           <th class="text-center">Gambar</th>
                           <th class="text-center">Harga</th>
+                          <th class="text-center">Stok</th>
                           <th class="text-center">Kategori</th>
                           <th colspan="3" style="text-align:center;">Aksi</th>
                         </tr>
@@ -48,6 +49,7 @@
                         	<td style="padding-top:20px;"><?= $row->nama ?></td>
                         	<td class="text-center"><img alt="error" class="img-thumbnail img-responsive" style="width:45px;height:40px;" src="<?= $row->gambar ?>"></td>
                         	<td style="padding-top:20px;"><?= $row->harga ?></td>
+                          <td style="padding-top:20px;"><?= $row->stok->sisa ?></td>
                         	<td style="padding-top:20px;"><?= $row->kategori ?></td>
                         	<td style="padding-top:20px;"><a href="<?= base_url(); ?>menu?action=detail&sha=<?= $row->sha ?>">Detail Menu</a></td>
                         	<td style="padding-top:20px;"><a href="<?= base_url(); ?>menu?action=ubah&sha=<?= $row->sha ?>">Ubah</a></td>
