@@ -16,7 +16,7 @@
                     <h2>Pengguna yang tersedia (<?= count($userdata->data) ?>)</h2>
                     <div class="clearfix"></div>
                     <?php if ( $this->session->userdata('hapus_user')): ?>
-                    <h5>Menu berhasil dihapus. <a href="<?= base_url() ?>user?action=hapus&token=<?= $this->session->userdata('hapus_user'); ?>&undo=true">Tidak jadi</a></h5>
+                    <h5>Pengguna berhasil dihapus. <a href="<?= base_url() ?>user?action=hapus&token=<?= $this->session->userdata('hapus_user'); ?>&undo=true">Tidak jadi</a></h5>
                    <?php 
                    $this->session->unset_userdata('hapus_user');
                    endif; ?>

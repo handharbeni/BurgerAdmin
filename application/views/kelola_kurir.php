@@ -12,6 +12,11 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="x_panel">
+                    <?php if ( $this->session->userdata('hapus_kurir')): ?>
+                    <h5>Kurir berhasil dihapus. <a href="<?= base_url() ?>kurir?action=hapus&token=<?= $this->session->userdata('hapus_kurir'); ?>&undo=true">Tidak jadi</a></h5>
+                   <?php 
+                   $this->session->unset_userdata('hapus_kurir');
+                   endif; ?>
                   <div class="x_content">
                     <div class="row">
                       <div class="col-md-12 col-sm-12 col-xs-12 text-center"><!-- nothing --></div>
@@ -28,8 +33,8 @@
                               <h2><?= $row[$i]->nama; ?></h2>
                               <p><strong><?= $row[$i]->username; ?></strong></p>
                               <ul class="list-unstyled">
-                                <li><i class="fa fa-motorcycle"></i> No Plat: <?= $row[$i]->no_plat; ?></li>
-                                <li><i class="fa fa-phone"></i> No Hp: <?= $row[$i]->no_hp; ?></li>
+                                <li><i class="fa fa-motorcycle"></i>&nbsp;<?= $row[$i]->no_plat; ?></li>
+                                <li><i class="fa fa-phone"></i>&nbsp;<?= $row[$i]->no_hp; ?></li>
                               </ul>
                             </div>
                             <div class="right col-xs-5 text-center">
@@ -39,8 +44,8 @@
                           <div class="col-xs-12 bottom text-center">
                             <div class="col-xs-12 col-sm-12 emphasis">
                               <a href="/kurir?action=detail&token=<?= $row[$i]->key ?>"  class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Lihat Kurir</a>
-                              <a href="/kurir?action=detail&token=<?= $row[$i]->key ?>"  class="btn btn-success btn-xs"><i class="fa fa-user"> </i> Ubah</a>
-                              <a href="/kurir?action=detail&token=<?= $row[$i]->key ?>"  class="btn btn-danger btn-xs"><i class="fa fa-user"> </i> Hapus</a>
+                              <a href="/kurir?action=edit&token=<?= $row[$i]->key ?>"  class="btn btn-success btn-xs"><i class="fa fa-user"> </i> Ubah</a>
+                              <a onclick="deleteKurir('<?= base_url(); ?>kurir?action=hapus&token=<?= $row[$i]->key ?>' , '<?= $row[$i]->nama ?>')" class="btn btn-danger btn-xs"><i class="fa fa-user"> </i> Hapus</a>
                             </div>
                           </div>
                         </div>

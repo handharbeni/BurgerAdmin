@@ -288,9 +288,45 @@ class Welcome extends CI_Controller {
 							}
 							else
 							{
-								$data['title'] = "Detail: ";
-								self::isTemplate('example',$data);
+								$data['title'] = "Detail Kurir";
+								$data['kurir'] = $this->KurirInterface->getKurirDetail($this->input->get('token'));
+								self::isTemplate('detail_kurir',$data);
 							}
+						break;
+
+						case 'edit':
+							if ( ! $_REQUEST['token'])
+							{
+								show_404();
+							}
+							else
+							{
+								$data['title'] = "Ubah Kurir";
+								$data['kurir'] = $this->KurirInterface->getKurirDetail($this->input->get('token'));
+								self::isTemplate('update_kurir', $data);
+							}
+						break;
+
+						case 'hapus':
+							$getdata = $this->input->get();
+
+							if ( ! $getdata['token'])
+							{
+								show_404();
+							}
+
+							$data = array(
+									'token' => $this->token,
+									'method' => $getdata['undo'] ? 'undo' : 'delete_kurir',
+									'token_kurir' => $getdata['token']
+								);
+
+							$result = $this->KurirInterface->postHapusKurir($data);
+
+							if ( ! $getdata['undo'])
+								$this->session->set_userdata( array('hapus_kurir' => $getdata['token']));
+
+							redirect('/kurir?action=show');
 						break;
 
 						default:
@@ -670,7 +706,6 @@ class Welcome extends CI_Controller {
 								redirect('/');
 							}
 
-							print_r($this->input->post());
 							$data = array(
 									'token' => $this->token,
 									'method' => 'add_kurir',
@@ -680,6 +715,31 @@ class Welcome extends CI_Controller {
 									'foto' => $this->input->post('gambar'),
 									'no_hp' => $this->input->post('no_hp'),
 									'no_plat' => $this->input->post('no_plat')
+								);
+
+							$this->AdminInterface->postKurir($data);
+							
+							redirect('/kurir?action=show');
+						break;
+
+						case 'update_kurir':
+							if ( ! $this->input->post())
+							{
+								redirect('/');
+							}
+
+							$postdata = $this->input->post();
+
+							$data = array(
+									'token' => $this->token,
+									'method' => 'update_kurir',
+									'token_kurir' => $postdata['kurir_token'],
+									'nama' => $postdata['nama'] ? $postdata['nama'] : null,
+									'username' =>$postdata['username'] ? $postdata['username'] : null,
+									'password' => $postdata['password'] ? md5($postdata['password']) : null,
+									'foto' => $postdata['gambar'] ? $postdata['gambar'] : null,
+									'no_hp' => $postdata['no_hp'] ? $postdata['no_hp'] : null,
+									'no_plat' => $postdata['no_plat'] ? $postdata['no_plat'] : null
 								);
 
 							$this->AdminInterface->postKurir($data);

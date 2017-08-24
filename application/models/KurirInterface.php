@@ -25,4 +25,13 @@ class KurirInterface extends CI_Model {
 
 		return $result;
 	}
+
+	/* @POST /admin/kurir */
+	public function postHapusKurir($data)
+	{
+		$x = $this->curl->simple_post($this->endpointUri.'/admin/kurir' , $data);
+		$result = json_decode($x);
+
+		return $result;
+	}
 }

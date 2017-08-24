@@ -100,6 +100,30 @@
     </script>
     <?php endif; ?>
 
+    <?php if ( $this->uri->segment(1) == 'kurir'): ?>
+    <script type="text/javascript">
+        function deleteKurir(nextUri, kurirName)
+        {
+          swal({
+                  title: "Hapus kurir?",
+                  text: "Kurir <strong>" + kurirName + "</strong> akan dihapus apabila memilih <strong>Ya</strong>",
+                  type: "warning",
+                  html: true,
+                  showCancelButton: true,
+                  closeOnConfirm: false,
+                  showLoaderOnConfirm: true,
+                  confirmButtonText: "Ya, hapus",
+                  cancelButtonText: "Keluar"
+                },
+                function(){
+                  setTimeout(function(){
+                      window.location.href = nextUri;
+                  }, 2000);
+                });
+        }
+    </script>
+    <?php endif; ?>
+
     <?php if ( $this->uri->segment(1) == 'outlet'): ?>
     <script type="text/javascript">
         function deleteOutlet(nextUri, outletName)
