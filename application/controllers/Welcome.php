@@ -70,7 +70,7 @@ class Welcome extends CI_Controller {
 
 			case 'pesanan':
 				self::hasLogin();
-				if ( $getAction && $_REQUEST['id_order'])
+				if ( $getAction)
 				{
 					switch($getAction) 
 					{
@@ -82,12 +82,81 @@ class Welcome extends CI_Controller {
 							self::isTemplate('detail_order' , $data);
 						break;
 
-						// case 'accept-order':
-						// 	$data['title'] = 'Terima Pesanan';
-						// 	$data['order'] = $this->AdminInterface->getOrderDetail($_REQUEST['id_order'], $this->token);
-						// 	$data['kurir'] = $this->KurirInterface->getList();
-						// 	self::isTemplate('accept_order' , $data);
-						// break;
+						case 'accept_order':
+							$getdata = $this->input->get();
+
+							if ( ! $getdata['sha'])
+							{
+								show_404();
+							}
+
+							$data = array(
+									'token' => $this->token,
+									'method' => 'accept_order',
+									'sha' => $getdata['sha']
+								);
+
+							$rs = $this->AdminInterface->postOrder($data);
+
+							redirect(base_url().'pesanan');
+						break;
+
+						case 'assign_courier':
+							$getdata = $this->input->get();
+
+							if ( ! $getdata['sha'])
+							{
+								show_404();
+							}
+
+							$data = array(
+									'token' => $this->token,
+									'method' => 'send_order',
+									'sha' => $getdata['sha']
+								);
+
+							$rs = $this->AdminInterface->postOrder($data);
+
+							redirect(base_url().'pesanan');
+						break;
+
+						case 'cancel_order':
+							$getdata = $this->input->get();
+
+							if ( ! $getdata['sha'])
+							{
+								show_404();
+							}
+
+							$data = array(
+									'token' => $this->token,
+									'method' => 'cancel_order',
+									'sha' => $getdata['sha']
+								);
+
+							$rs = $this->AdminInterface->postOrder($data);
+
+							redirect(base_url().'pesanan');
+						break;
+
+						case 'delete_order':
+							$getdata = $this->input->get();
+
+							if ( ! $getdata['sha'])
+							{
+								show_404();
+							}
+
+							$data = array(
+									'token' => $this->token,
+									'method' => 'temp_delete',
+									'sha' => $getdata['sha']
+								);
+
+							$rs = $this->AdminInterface->postOrder($data);
+
+							redirect(base_url().'pesanan');
+						break;
 
 						default:
 							show_404();
@@ -176,7 +245,7 @@ class Welcome extends CI_Controller {
 							}
 							else
 							{
-								$data['title'] = "Detail: ";
+								$data['title'] = "Detail Menu";
 								$data['menu'] = $this->AdminInterface->getMenuDetail($this->token,$_REQUEST['sha']);
 								self::isTemplate('detail_menu',$data);
 							}
@@ -462,7 +531,6 @@ class Welcome extends CI_Controller {
 							}
 							else
 							{
-
 								$_SESSION['outlet_update'] = 'Gagal: '.$result->error_message;
 								redirect('/outlet?action=edit&token='.$_POST['token']);
 							}
@@ -495,6 +563,61 @@ class Welcome extends CI_Controller {
 							$data['title'] = "Tambah Banner";
 							$data['action'] = $this->uri->segment(1);
 							self::isTemplate('add_banner' , $data);
+						break;
+
+						case 'detail':
+							$token = $this->input->get('token');
+
+							if ( ! $token)
+							{
+								redirect(base_url());
+							}
+
+							$data['title'] = "Detail Banner";
+							$data['action'] = $this->uri->segment(1);
+							$data['banner'] = $this->AdminInterface->getDetailBanner($token);
+							self::isTemplate('detail_banner', $data);
+						break;
+
+						case 'edit':
+							$token = $this->input->get('token');
+
+							if ( ! $token)
+							{
+								redirect(base_url());
+							}
+
+							$data['title'] = "Ubah Banner";
+							$data['action'] = $this->uri->segment(1);
+							$data['banner'] = $this->AdminInterface->getDetailBanner($token);
+							self::isTemplate('update_banner', $data);
+						break;
+
+						case 'hapus':
+							$sha = $this->input->get('token');
+							$undo = $this->input->get('undo');
+
+							if ( ! $sha)
+							{
+								redirect('/');
+							}
+
+							$data = array(
+									'token' => $this->token,
+									'method' => $undo ? 'undo' : 'delete_banner',
+									'sha' => $sha
+								);
+							
+							$this->AdminInterface->postBanner($data);
+
+							if ( ! $undo)
+								$this->session->set_userdata( array('hapus_banner' => $sha));
+
+							redirect('/banner?action=show');
+						break;
+
+						default:
+							show_404();
 						break;
 					}
 				}
@@ -750,6 +873,89 @@ class Welcome extends CI_Controller {
 							$this->AdminInterface->postKurir($data);
 							
 							redirect('/kurir?action=show');
+						break;
+
+						case 'add_banner';
+							$postdata = $this->input->post();
+
+							if ( ! $postdata)
+							{
+								redirect(base_url());
+							}
+
+							$added_by = null;
+
+							$admin = $this->admin->data[0];
+
+							if ( isset($admin->outlet))
+							{
+								$added_by = $admin->outlet->nama_outlet;
+							}
+							else
+							{
+								$added_by = 'Admin';
+							}
+
+							$data = array(
+									'token' => $this->token,
+									'method' => 'add_banner',
+									'nama' => $postdata['nama'],
+									'gambar' => $postdata['gambar'],
+									'keterangan' => $postdata['keterangan'] ? $postdata['keterangan'] : 'nothing',
+									'posisi' => $postdata['posisi'],
+									'link_banner' => $postdata['link_banner'] ? $postdata['link_banner'] : 'nothing',
+									'added_by' => $added_by
+								);
+
+							$rs = $this->AdminInterface->postBanner($data);
+
+							$x = $rs->return ? $rs->message : $rs->error_message;
+
+							$this->session->set_userdata( array('banner_message' => $x));
+
+							redirect(base_url().'banner?action=show');
+						break;
+
+						case 'update_banner':
+							$postdata = $this->input->post();
+
+							if ( ! $postdata)
+							{
+								redirect(base_url());
+							}
+
+							$x = null;
+
+							$admin = $this->admin->data[0];
+
+							if ( isset($admin->outlet))
+							{
+								$x = $admin->outlet->nama_outlet;
+							}
+							else
+							{
+								$x = 'Admin';
+							}
+
+							$data = array(
+									'token' => $this->token,
+									'method' => 'update_banner',
+									'nama' => $postdata['nama'],
+									'gambar' => $postdata['gambar'],
+									'keterangan' => $postdata['keterangan'] ? $postdata['keterangan'] : 'nothing',
+									'posisi' => $postdata['posisi'],
+									'link_banner' => $postdata['link_banner'] ? $postdata['link_banner'] : 'nothing',
+									'sha' => $postdata['sha'],
+									'modified_by' => $x
+								);
+
+							$rs = $this->AdminInterface->postBanner($data);
+
+							$x = $rs->return ? $rs->message : $rs->error_message;
+
+							$this->session->set_userdata( array('banner_message' => $x));
+
+							redirect(base_url().'banner?action=show');
 						break;
 
 						default:

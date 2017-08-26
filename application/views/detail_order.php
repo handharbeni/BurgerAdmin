@@ -78,7 +78,7 @@
                                 <h5>Alamat kirim</h5>
                                 <h2 class="title"><strong><?= ( $data->alamat_kirim != null) ? $data->alamat_kirim : 'Tidak Ada'; ?></strong></h2>
                                 <h5>Total belanja</h5>
-                                <h2 class="title"><strong><?= ( $data->total_belanja != null) ? $data->total_belanja : 'Tidak Ada'; ?></strong></h2>
+                                <h2 class="title"><strong><?= ( $data->total_belanja != null) ? Rupiah($data->total_belanja) : 'Tidak Ada'; ?></strong></h2>
                                 <h5>Status Pemesanan</h5>
                                 <h2 class="title"><strong><?= ( $data->status->value != null) ? $data->status->value : 'Tidak Ada'; ?></strong></h2>
                               </div>
@@ -119,7 +119,7 @@
                                     </span>
                                     <span style="font-size:13px"><?= $item->menu->nama_menu; ?> (<?= $item->jumlah; ?>)</span>
                                     <br/>
-                                    <span style="font-size:13px"><?= $item->harga; ?></span>
+                                    <span style="font-size:13px"><?= Rupiah($item->harga); ?></span>
                                     <span style="font-size:13px;display:block!important;margin-left:65px;width:90%!important;"><?= ($item->keterangan == 'nothing') ? 'Tidak ada keterangan' : $item->keterangan;?>
                                     </span>
                                   </a>

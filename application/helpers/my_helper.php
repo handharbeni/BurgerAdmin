@@ -49,3 +49,11 @@ if ( ! function_exists('humantime'))
 		return $string;
 	}
 }
+
+if ( ! function_exists('Rupiah'))
+{
+	function Rupiah($angka , $string = "Rp")
+	{
+		return $string.number_format($angka , 1 , ',' , '.');
+	}
+}

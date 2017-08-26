@@ -8,9 +8,38 @@
         <!-- /footer content -->
       </div>
     </div>
-
     <!-- jQuery -->
     <script src="<?=base_url()?>/vendors/jquery/dist/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        jQuery.fn.ForceNumericOnly =
+        function()
+        {
+            return this.each(function()
+            {
+                $(this).keydown(function(e)
+                {
+                    var key = e.charCode || e.keyCode || 0;
+                    // allow backspace, tab, delete, enter, arrows, numbers and keypad numbers ONLY
+                    // home, end, period, and numpad decimal
+                    return (
+                        key == 8 || 
+                        key == 9 ||
+                        key == 13 ||
+                        key == 46 ||
+                        key == 110 ||
+                        key == 190 ||
+                        (key >= 35 && key <= 40) ||
+                        (key >= 48 && key <= 57) ||
+                        (key >= 96 && key <= 105));
+                });
+            });
+        };
+
+        $(".inputNumberOnly").ForceNumericOnly();
+     });
+    </script>
     <!-- Bootstrap -->
     <script src="<?=base_url()?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
@@ -183,14 +212,38 @@
     </script>
     <?php endif; ?>
 
+    <?php if ( $this->uri->segment(1) == 'banner'): ?>
+    <script type="text/javascript">
+        function deleteBanner(nextUri, bannerName)
+        {
+          swal({
+                  title: "Hapus banner?",
+                  text: "Banner <strong>" + bannerName + "</strong> akan dihapus apabila memilih <strong>Ya</strong>",
+                  type: "warning",
+                  html: true,
+                  showCancelButton: true,
+                  closeOnConfirm: false,
+                  showLoaderOnConfirm: true,
+                  confirmButtonText: "Ya, hapus",
+                  cancelButtonText: "Keluar"
+                },
+                function(){
+                  setTimeout(function(){
+                      window.location.href = nextUri;
+                  }, 2000);
+                });
+        }
+    </script>
+    <?php endif; ?>
+
     <?php if ( $this->uri->segment(1) == 'pesanan'): ?>
     <!-- Pesanan JS -->
     <script type="text/javascript">
-        function cancelOrder()
+        function cancelOrder(str , nextUri)
         {
           swal({
                   title: "Batalkan pesanan?",
-                  text: "Pesanan akan dibatalkan apabila memilih <strong>Ya</strong>",
+                  text: "Pesanan " + str + ". Apakah yakin ingin dibatalkan?",
                   type: "warning",
                   html: true,
                   showCancelButton: true,
@@ -201,12 +254,12 @@
                 },
                 function(){
                   setTimeout(function(){
-                    swal("Berhasil!", "Pesanan berhasil dibatalkan!", "success");
+                    window.location.href = nextUri;
                   }, 2000);
                 });
         }
 
-        function acceptOrder()
+        function acceptOrder(nextUri)
         {
           swal({
                 title: "Ambil pesanan?",
@@ -221,22 +274,37 @@
               },
               function(){
                 setTimeout(function(){
-                  swal("Berhasil!", "Pesanan berhasil diterima!", "success");
+                   window.location.href = nextUri;
+                }, 2000);
+              });
+        }
+
+        function assignToCourier(nextUri)
+        {
+          swal({
+                title: "Antarkan pesanan?",
+                text: "Pesanan akan dikirim ke kurir dan akan segera diantarkan",
+                type: "info",
+                html: true,
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                confirmButtonText: "Ya, antar",
+                cancelButtonText: "Batal"
+              },
+              function(){
+                setTimeout(function(){
+                   window.location.href = nextUri;
                 }, 2000);
               });
         }
 
         function orderCompleted()
-        {
-          swal("Berhasil!", "Order behasil dikirim!", "success");
+        { 
+          swal("Berhasil!", "Order telah selesai!", "success");
         }
 
-        function orderProcessing()
-        {
-          swal("Proses!", "Order sedang diproses!", "info");
-        }
-
-        function deleteOrder(baseUrl)
+        function deleteOrder(nextUri)
         {
           swal({
                   title: "Hapus pesanan?",
@@ -251,7 +319,7 @@
                 },
                 function(){
                   setTimeout(function(){
-                    swal("Berhasil!", "Pesanan berhasil dihapus!" + baseUrl, "success");
+                    window.location.href = nextUri;
                   }, 2000);
                 });
         }

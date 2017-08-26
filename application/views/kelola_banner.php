@@ -15,6 +15,16 @@
                   <div class="x_title">
                     <h2>Banner yang tersedia (<?= count($banner->data) ?>)</h2>
                     <div class="clearfix"></div>
+                    <?php if ( $this->session->userdata('banner_message')): ?>
+                    <h4 class="text-center"><?= $this->session->userdata('banner_message'); ?></h4>
+                    <?php 
+                    $this->session->unset_userdata('banner_message');
+                    endif; ?>
+                    <?php if ( $this->session->userdata('hapus_banner')): ?>
+                    <h5>Banner berhasil dihapus. <a href="<?= base_url() ?>banner?action=hapus&token=<?= $this->session->userdata('hapus_banner'); ?>&undo=true">Tidak jadi</a></h5>
+                   <?php 
+                   $this->session->unset_userdata('hapus_banner');
+                   endif; ?>
                   </div>
                   <div class="x_content">
                   <?php if( ! $banner->return): ?>
@@ -42,9 +52,9 @@
                           <td><?= $row[$i]->nama ?></td>
                           <td><?= strlen($row[$i]->keterangan > 20) ? 
                             substr($row[$i]->keterangan, 0,20).'...' : $row[$i]->keterangan; ?></td>
-                        	<td><a href="/banner?action=detail&token=<?= $row[$i]->sha?>">Detail Banner</a></td>
-                          <td><a href="#">Ubah</a></td>
-                          <td><a href="">Hapus</a></td>
+                        	<td><a href="<?= base_url() ?>banner?action=detail&token=<?= $row[$i]->sha ?>">Detail Banner</a></td>
+                          <td><a href="<?= base_url() ?>banner?action=edit&token=<?= $row[$i]->sha ?>">Ubah</a></td>
+                          <td style="cursor: default;"><a onclick="deleteBanner('<?= base_url(); ?>banner?action=hapus&token=<?= $row[$i]->sha ?>','<?= $row[$i]->nama ?>')">Hapus</a></td>
                         </tr>
                       <?php endfor; ?>
                     </table>

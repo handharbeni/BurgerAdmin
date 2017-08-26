@@ -44,6 +44,15 @@ class AdminInterface extends CI_Model {
 		return $result;
 	}
 
+	/* @POST /admin/order */
+	public function postOrder($data)
+	{
+		$x = $this->curl->simple_post($this->endpointUri.'/admin/order' , $data);
+		$result = json_decode($x);
+
+		return $result;
+	}
+
 	/* @GET /admin/menu?token=:access_token */
 	public function getMenu($token)
 	{
@@ -145,6 +154,28 @@ class AdminInterface extends CI_Model {
 		
 		$rs = $this->curl->simple_get($this->uri);
 		$result = json_decode($rs);
+
+		return $result;
+	}
+
+	/* @GET /public/feature?type=banner&access=true&sha=:sha */ 
+	public function getDetailBanner($sha)
+	{
+		$this->uri = $this->endpointUri.'/public/feature?type=banner&access=true&sha='.$sha;
+		
+		$rs = $this->curl->simple_get($this->uri);
+		$result = json_decode($rs);
+
+		return $result;
+	}
+
+	/* @POST /admin/banner */
+	public function postBanner($data)
+	{
+		$this->uri = $this->endpointUri.'/admin/banner';
+
+		$order = $this->curl->simple_post($this->uri, $data);
+		$result = json_decode($order);
 
 		return $result;
 	}
