@@ -21,7 +21,7 @@
                     <div class="row">
                       <div class="col-md-12 col-sm-12 col-xs-12 text-center"><!-- nothing --></div>
                         <div class="clearfix"></div>
-                        <?php if( ! $kurir->return): ?>
+                        <?php if( ! $kurir->return || count($kurir->data) == 0): ?>
                         <h3>Kurir belum ada!</h3>
                         <?php else: ?>
                         <?php for($i = 0 ; $i <= count($kurir->data)-1; $i ++): 

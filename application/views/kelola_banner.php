@@ -13,7 +13,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Banner yang tersedia (<?= count($banner->data) ?>)</h2>
+                    <h2>Banner yang tersedia (<?= $banner->return ? count($banner->data) : 0 ?>)</h2>
                     <div class="clearfix"></div>
                     <?php if ( $this->session->userdata('banner_message')): ?>
                     <h4 class="text-center"><?= $this->session->userdata('banner_message'); ?></h4>
@@ -28,7 +28,7 @@
                   </div>
                   <div class="x_content">
                   <?php if( ! $banner->return): ?>
-                  <h3>Pengguna belum ada!</h3>
+                  <h3>Banner belum ada!</h3>
                   <?php else: ?>
                 	<table id="datatable" class="table table-striped table-bordered">
                       <thead>
