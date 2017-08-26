@@ -167,9 +167,7 @@ class Welcome extends CI_Controller {
 				{
 					$data['title'] = "Pesanan";
 					$data['uri'] = $this->uri->segment(1);
-					$data['order'] = $this->sessionAdmin ? 
-					$this->AdminInterface->getOrder($this->sessionAdmin) :
-					$this->OutletInterface->getOrder($this->sessionOutlet);
+					$data['order'] = $this->AdminInterface->getOrder($this->token);
 					self::isTemplate('pesanan' ,$data);
 				}
 			break;
@@ -248,6 +246,56 @@ class Welcome extends CI_Controller {
 								$data['title'] = "Detail Menu";
 								$data['menu'] = $this->AdminInterface->getMenuDetail($this->token,$_REQUEST['sha']);
 								self::isTemplate('detail_menu',$data);
+							}
+						break;
+
+						case 'stok':
+							$getdata = $this->input->get();
+
+							if ( ! $getdata['x'] || ! $getdata['token'])
+							{
+								redirect(base_url());
+							}
+
+							$x = explode(":", $getdata['x']);
+							$x = str_replace(array('[',']') , '', $x);
+
+							$jumlah = base64_decode($x[0]);
+
+							switch($x[1])
+							{
+								case 'add_stok':	
+									$data = array(
+											'token' => $this->token,
+											'method' => 'add_stok',
+											'sha' => $getdata['token'],
+											'jumlah' => $jumlah
+										);
+
+									$rs = $this->AdminInterface->postMenu($data);
+
+									redirect(base_url().'menu?action=show');
+								break;
+
+								case 'update_stok':
+									$data = array(
+											'token' => $this->token,
+											'method' => 'add_stok',
+											'sha' => $getdata['token'],
+											'jumlah' => $jumlah
+										);
+
+									print_r($data);
+
+									$rs = $this->AdminInterface->postMenu($data);
+
+									print_r($rs);
+									redirect(base_url().'menu?action=show');
+								break;
+
+								default:
+									print_r($x);
+								break;
 							}
 						break;
 
@@ -610,8 +658,8 @@ class Welcome extends CI_Controller {
 							
 							$this->AdminInterface->postBanner($data);
 
-							if ( ! $undo)
-								$this->session->set_userdata( array('hapus_banner' => $sha));
+							// if ( ! $undo)
+							// 	$this->session->set_userdata( array('hapus_banner' => $sha));
 
 							redirect('/banner?action=show');
 						break;

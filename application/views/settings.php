@@ -26,7 +26,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Biaya per-kilometer
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="name" class="form-control col-md-7 col-xs-12" name="km" autocomplete="off" type="text"><span>Sekarang: <strong>Rp. <?= $getKm->value ?></strong></span>
+                          <input id="name" class="form-control col-md-7 col-xs-12 inputNumberOnly" name="km" autocomplete="off" type="text"><span>Sekarang: <strong><?= Rupiah($getKm->value); ?></strong></span>
                         </div>
                       </div>
 

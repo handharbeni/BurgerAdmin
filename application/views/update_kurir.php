@@ -10,7 +10,7 @@
                     <?php if ( ! $kurir->return): ?>
                     <h3 class="text-center">Maaf, data kurir tidak ditemukan!</h3>
                     <?php else: ?>
-                    <h2>Halaman Kurir</h2>
+                    <h2><a href="<?= base_url().'kurir?action=show'; ?>"><span class="fa fa-chevron-left"></span>&nbsp;</a> Halaman Kurir</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">

@@ -31,7 +31,7 @@
                     <ul class="nav child_menu">
                       <li><a href="<?= base_url() ?>menu?action=show">Lihat Menu</a></li>
                       <li><a href="<?= base_url() ?>menu?action=add">Tambah Menu</a></li>
-                      <li><a href="<?= base_url() ?>menu?action=add_stok">Halaman Stok</a></li>
+                      <li><a href="<?= base_url() ?>menu?action=add_stok">Stok</a></li>
                     </ul>
                   </li>
                 

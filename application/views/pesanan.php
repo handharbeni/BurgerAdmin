@@ -13,7 +13,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pesanan yang tersedia (<?= count($order->data)?>)</h2>
+                    <h2>Pesanan yang tersedia (<?= $order->return ? count($order->data) : 0 ?>)</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">

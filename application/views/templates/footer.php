@@ -83,7 +83,8 @@
 
     <?php if ( $this->uri->segment(1) == 'menu'): ?>
     <script type="text/javascript">
-        $("#stokSekarang").hide();
+        $("#stokSekarang1").hide();
+        $("#stokSekarang2").hide();
 
         function deleteMenu(nextUri)
         {
@@ -106,18 +107,28 @@
         }
 
         this.stok = null;
+        this.sha = null;
         this.jumlahStok = null;
 
-        function changeMenu(stok)
+        function changeMenuAdd(stok , sha)
         {
           this.stok = stok;
-          $("#stokSekarang").show();
-          $("#stokSekarang").html("Stok sekarang: <strong>" + stok + "</strong>");
+          this.sha = sha;
+          $("#stokSekarang1").show();
+          $("#stokSekarang1").html("Stok sekarang: <strong>" + stok + "</strong>");
         }
 
-        function confirmAddStok(form)
+        function changeMenuUpdate(stok , sha)
+        {
+          this.stok = stok;
+          this.sha = sha;
+          $("#stokSekarang2").show();
+          $("#stokSekarang2").html("Stok sekarang: <strong>" + stok + "</strong>");
+        }
+
+        function confirmAddStok(form , nextUri)
         {   
-            if ( form.jumlahTambahStok.value == null || form.jumlahTambahStok.value == ''
+            if ( form.jumlahTambahStok1.value == null || form.jumlahTambahStok1.value == ''
               || form.nama_menu.value == null || form.nama_menu.value == '')
             {
               return false;
@@ -133,9 +144,54 @@
                 this.jumlahStok = parseInt(this.stok);
               }
 
-              this.total = this.jumlahStok + parseInt(form.jumlahTambahStok.value);
-              swal("Tambah Stok?", "Apabila setuju total stok akan menjadi " + this.total , "warning");
+              this.total = this.jumlahStok + parseInt(form.jumlahTambahStok1.value);
+              this.nextUri = nextUri + "&token=" + this.sha + "&x=[" + btoa(this.total) + ":add_stok]";
+              swal({
+                      title: "Tambah Stok?",
+                      text: "Apabila setuju total stok akan menjadi " + this.total ,
+                      type: "warning",
+                      html: true,
+                      showCancelButton: true,
+                      closeOnConfirm: false,
+                      showLoaderOnConfirm: true,
+                      confirmButtonText: "Ya, tambah",
+                      cancelButtonText: "Keluar"
+                    },
+                    function(){
+                      setTimeout(function(){
+                          window.location.href = this.nextUri;
+                      }, 2000);
+                    });
             }
+        }
+
+        function confirmUpdateStok(form,nextUri)
+        {
+          if ( form.jumlahTambahStok2.value == null || form.jumlahTambahStok2.value == ''
+              || form.nama_menu.value == null || form.nama_menu.value == '')
+          {
+            return false;
+          }
+          else
+          {
+            this.nextUri = nextUri + "&token=" + this.sha + "&x=[" + btoa(form.jumlahTambahStok2.value) + ":update_stok]";
+            swal({
+                    title: "Ubah Stok?",
+                    text: "Apabila setuju total stok akan menjadi " + form.jumlahTambahStok2.value,
+                    type: "warning",
+                    html: true,
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    confirmButtonText: "Ya, ubah",
+                    cancelButtonText: "Keluar"
+                  },
+                  function(){
+                    setTimeout(function(){
+                        window.location.href = this.nextUri;
+                    }, 2000);
+                  });
+          }
         }
     </script>
     <?php endif; ?>
